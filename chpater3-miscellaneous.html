@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<meta http-equiv="X-UA-Compatible" content="ie=edge">
+	<title>Document</title>
+	<style>
+		#results li.pass { color: green; }
+		#results li.fail { color: red; }
+	</style>
+</head>
+<body>
+	<ul id="results"></ul>
+	<script>
+		function assert(value, desc) {
+			var li = document.createElement('li');
+			li.className = value ? 'pass' : 'fail';
+			li.appendChild(document.createTextNode(desc));
+			document.getElementById('results').appendChild(li);
+		}
+
+		/* BEGIN */
+		// function isNimble () { return true; };
+
+		// assert(typeof window.isNimble === 'function', 'isNimble() defined');
+		// assert(isNimble.name === 'isNimble', 'isNimble() as a name');
+
+		// var canFly = function () { return true; };
+
+		// assert(typeof window.canFly === 'function', 'canFly() defined');
+		// assert(canFly.name === "", "canFly() has no name");
+		// assert(canFly.prototype.name === '', 'canFly() has no name');
+
+		// window.isDeadly = function () { return true; };
+
+		// assert(typeof window.isDeadly === 'function', 'isDeadly() defined');
+
+		// function outer () {
+		// 	debugger;
+		// 	assert(typeof inner === 'function', 'inner() in scope before declaration');
+
+		// 	function inner() {}
+
+		// 	assert(typeof inner === 'function', 'inner() in scope after declaration');
+		// 	assert(window.inner === undefined, 'inner() not in global scope');
+		// }
+
+		// outer();
+
+		// assert(window.inner === undefined, 'inner() still not in global scope');
+
+		// window.wieldsSword = function swingsSword () { return true; };
+
+		// assert(window.wieldsSword.name === 'swingsSword',
+		// 	`wieldsSword's real name is swingsSword`);
+		/** END **/
+
+		function outer () {
+			var a = 1;
+
+			function inner() {}
+
+			var b = 2;
+
+			if (a === 1) {
+				var c = 3;
+			}
+		}
+		assert(true, "Tests");
+		assert(typeof outer === 'function', "outer() is in scope");
+		assert(typeof inner === 'function', "inner() is in scope");
+		assert(typeof a === 'number', "a is in scope");
+		assert(typeof b === 'number', "b is in scope");
+		assert(typeof c === 'number', "c is in scope");
+	</script>
+</body>
+</html>
