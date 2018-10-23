@@ -73,6 +73,30 @@
 		assert(typeof a === 'number', "a is in scope");
 		assert(typeof b === 'number', "b is in scope");
 		assert(typeof c === 'number', "c is in scope");
+
+		/* Function context */
+
+		/* 4 ways to invoke functions */
+		// Function
+		function ninja () {}
+		ninja();
+
+		function samurai () {}
+		samurai();
+		// Method
+		// Constructor
+		// apply/call
+		/* Function context */
+
+		/* ARGUMENTS parameter */
+		function argumentsParameterChecker() {
+			return arguments.length;
+		}
+		argumentsParameterChecker(1, 2, 3, 4);
+
+		/* THIS parameter */
+		// When from a function invocation, the function context is the
+		// windows object
 	</script>
 </body>
 </html>
