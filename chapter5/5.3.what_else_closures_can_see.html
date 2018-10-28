@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<meta http-equiv="X-UA-Compatible" content="ie=edge">
+	<title>Document</title>
+	<style>
+		#results {
+			border-style: solid;
+			border-width: 1px;
+			border-color: red;
+			background-color: yellow;
+		}
+		#results li.pass { color: green; }
+		#results li.fail {
+			color: red;
+			text-decoration: line-through;
+		}
+	</style>
+</head>
+<body>
+	<ul id="results"></ul>
+	<script>
+		function assert(value, desc) {
+			var li = document.createElement('li');
+			li.className = value ? 'pass' : 'fail';
+			li.appendChild(document.createTextNode(desc));
+			document.getElementById('results').appendChild(li);
+		}
+		var outerValue = 'ninja';
+		var later;
+
+		function outerFunction () {
+			var innerValue = 'samurai';
+			function innerFunction (paramValue) {
+				assert(outerValue, 'Inner can see the ninja.');
+				assert(innerValue, 'Inner can see the samurai.');
+				assert(paramValue, 'Inner can see the wakizashi.');
+				assert(tooLate, 'Inner can see the ronin.');
+			}
+
+			later = innerFunction;
+		}
+
+		assert(!tooLate, "Outer can't see the ronin.");
+
+		var tooLate = 'ronin';
+
+		outerFunction();
+		later('wakizashi');
+	</script>
+</body>
+</html>

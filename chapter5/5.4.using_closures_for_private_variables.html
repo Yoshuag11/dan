@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<meta http-equiv="X-UA-Compatible" content="ie=edge">
+	<title>Document</title>
+	<style>
+		#results {
+			border-style: solid;
+			border-width: 1px;
+			border-color: red;
+			background-color: yellow;
+		}
+		#results li.pass { color: green; }
+		#results li.fail {
+			color: red;
+			text-decoration: line-through;
+		}
+	</style>
+</head>
+<body>
+	<ul id="results"></ul>
+	<script>
+		function assert(value, desc) {
+			var li = document.createElement('li');
+			li.className = value ? 'pass' : 'fail';
+			li.appendChild(document.createTextNode(desc));
+			document.getElementById('results').appendChild(li);
+		}
+		function Ninja () {
+			var feints = 0;
+			this.getFeints = function () {
+				return feints;
+			}
+			this.feint = function () {
+				feints += 1;
+			};
+		}
+		var ninja = new Ninja();
+		var ninja2 = new Ninja();
+		ninja.feint();
+		assert(ninja.getFeints() == 1,
+			"We're able to access the internal feint count.");
+		assert(ninja.feints === undefined,
+			'And the private data is inaccessible to us.');
+		assert(ninja2.getFeints() == 0,
+			"feints property is bound to the constructor, not the instance.");
+	</script>
+</body>
+</html>

@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<meta http-equiv="X-UA-Compatible" content="ie=edge">
+	<title>Document</title>
+	<style>
+		#results li.pass { color: green; }
+		#results li.fail {
+			color: red;
+			text-decoration: line-through;
+		}
+	</style>
+</head>
+<body>
+	<ul id="results"></ul>
+	<script>
+		function assert(value, desc) {
+			var li = document.createElement('li');
+			li.className = value ? 'pass' : 'fail';
+			li.appendChild(document.createTextNode(desc));
+			document.getElementById('results').appendChild(li);
+		}
+
+		var obj= {};
+		var fn = function () {};
+		obj.prop = 'hitsuke (distraction)';
+		fn.prop = 'tanuki (climbing)';
+		// assert(obj && fn, 'Both the object and function exist.');
+
+		function getElements (name) {
+			if (!getElements.cache) getElements.cache = {};
+			return getElements.cache[name] = getElements.cache[name] ||
+				document.getElementsByTagName(name);
+		}
+
+		function makeNinja (name) {}
+		function makeSamurai(name, rank) {}
+		// assert(makeNinja.length == 1, 'Only expecting a single argument;');
+		// assert(makeSamurai.length == 2, 'Two arguments expected');
+
+		function ninja () {}
+		assert(typeof ninja == 'function', 'Functions have a type of function');
+		assert(typeof ninja == 'function', 'Functions have a type of function');
+	</script>
+</body>
+</html>

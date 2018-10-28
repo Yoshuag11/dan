@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<meta http-equiv="X-UA-Compatible" content="ie=edge">
+	<title>Document</title>
+	<script src="exercises.js"></script>
+	<style>
+		#results {
+			border-style: solid;
+			border-width: 1px;
+			border-color: red;
+			background-color: yellow;
+		}
+		#results li.pass { color: green; }
+		#results li.fail {
+			color: red;
+			text-decoration: line-through;
+		}
+	</style>
+</head>
+<body>
+	<ul id="results"></ul>
+	<script>
+		function assert(value, desc) {
+			var li = document.createElement('li');
+			li.className = value ? 'pass' : 'fail';
+			li.appendChild(document.createTextNode(desc));
+			document.getElementById('results').appendChild(li);
+		}
+		// function Person () {}
+		// function Ninja () {}
+		// Ninja.prototype = new Person();
+		// assert(new Ninja() instanceof Ninja, 'Ninjas are people too!');
+		// assert(new Ninja() instanceof Person, 'Ninjas are people too!');
+		// Ninja.prototype.dan = 'DAN';
+		// var ninja = new Ninja();
+		// var person = new Person();
+		// assert(person.dan === undefined &&
+		// 	ninja.dan === 'DAN',
+		// 	'Each constructor have their own prototype property');
+		// Person.prototype.legs = true;
+		// assert(ninja.legs,
+		// 	'Even though Ninja has access to Person prototype.');
+		// ninja.prototype = 0;
+		// assert(ninja.dan === 'DAN',
+		// 	'And trying to set a prototype property does not affect ' +
+		// 	'the prototype chain.');
+		// Ninja.prototype = {d: 2};
+		// var ninja2 = new Ninja();
+		// assert(ninja.dan === 'DAN',
+		// 	"Instances already created won't lose original Ninja prototype's " +
+		// 	'even if such is changed afterwards.');
+		// assert(ninja2.d === 2,
+		// 	"And new instances take new prototype value.");
+		var officer = new Officer('Daniel', true);
+		assert(officer.constructor === Person, 'officer is a Officer.');
+		assert(officer instanceof Officer, 'officer is a Officer.');
+		assert(officer instanceof Person, 'officer is a Person.');
+		assert(officer.greet() === 'Hi, my name is Daniel',
+			"officer's got all Person functions.");
+		assert(officer.greet() === 'Hi, my name is Daniel',
+			"officer's got all Person functions.")
+		assert(officer.shoot(),
+			"an officer can shoot his gun.")
+		var person = new Person('Hector');
+		assert(!person.shoot,
+			"a normal citizen can't shoot (at least, he should not).");
+		// var quadrilateral = new Quadrilateral(4, 5, 5, 4);
+		// assert(quadrilateral.area() === 'area',
+		// 	'quadrilateral area is correctly calculated.');
+		/** Square test **/
+		assert(true, 'SQUARE tests.');
+		// var square = new Square(5);
+		var square = new Square(5);
+		assert(square instanceof Square &&
+			square instanceof Quadrilateral &&
+			square instanceof Shape,
+			  'square is a Square and a Quadrilateral and a Shape');
+		assert(square.area() === 25,
+			'Area correctly calculated.');
+		assert(square.perimeter() === 20,
+			'Perimeter correctly calculated.');
+		/** Triangle tests **/
+		assert(true, 'TRIANGLE tests.');
+		var triangle = new EquilateralTriangle(8);
+		assert(triangle instanceof EquilateralTriangle &&
+			  triangle instanceof Triangle &&
+			  triangle instanceof Shape,
+			'triangle is an EquilateralTriangle and a Triangle and a Shape');
+		assert(triangle.area() === 27.7,
+			'triangle area was correctly calculated.');
+		assert(triangle.perimeter() === 24,
+			'Perimeter correctly calculated.');
+	</script>
+</body>
+</html>

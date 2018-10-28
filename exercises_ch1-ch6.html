@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<meta http-equiv="X-UA-Compatible" content="ie=edge">
+	<title>Document</title>
+	<style>
+		#results {
+			border-style: solid;
+			border-width: 1px;
+			border-color: red;
+			background-color: yellow;
+		}
+		#results li.pass { color: green; }
+		#results li.fail {
+			color: red;
+			text-decoration: line-through;
+		}
+		#test {
+			width: 200px;
+			height: 200px;
+			padding: 10px;
+			margin: 0 auto;
+		}
+	</style>
+	<script src="exercises_ch1-ch6.js"></script>
+</head>
+<body>
+	<div id="test">Test content</div>
+	<ul id="results"></ul>
+	<script>
+		function assert(value, desc) {
+			var li = document.createElement('li');
+			li.className = value ? 'pass' : 'fail';
+			li.appendChild(document.createTextNode(desc));
+			document.getElementById('results').appendChild(li);
+		}
+
+		assert(true, '3rd question tests.');
+		var elem = document.getElementById('test');
+		elem.applyStyle('red', '1.8em', 'yellow');
+		assert(elem.style.color === 'red', 'Color set correctly.');
+		assert(elem.style.fontSize === '1.8em', 'font-size set correctly.');
+		assert(elem.style.backgroundColor === 'yellow',
+			'background-color set correctly.');
+		elem.applyStyle();
+		assert(elem.style.color === 'blue',
+			'Default color set correctly.');
+		assert(elem.style.fontSize === '1.2em',
+			'Default font-size set correctly.');
+		assert(elem.style.backgroundColor === 'pink',
+			'Default background-color set correctly.');
+		elem.applyStyle('red');
+		assert(elem.style.fontSize === '1.2em',
+			'Default 2nd-parameter font-size set correctly.');
+		assert(elem.style.backgroundColor === 'pink',
+			'Default 2nd-parameter background-color set correctly.');
+		elem.applyStyle('red', '1.9em');
+		assert(elem.style.backgroundColor === 'pink',
+			'Default 3rd-parameter background-color set correctly.');
+
+		assert(true, '4th question tests.');
+		var objA = {
+			name: 'Dan'
+		};
+		var objB = {
+			lastname: 'Morua',
+			job: 'Developer'
+		};
+		copyProp(objA, objB);
+		assert(objA.lastname === 'Morua', 'Properties copied correctly.');
+		objA = {
+			name: 'Dan'
+		};
+		copyProp(objA, objB, ['job']);
+		assert(!objA.lastname && objA.job === 'Developer',
+			'Only specified properties were copied.');
+	</script>
+</body>
+</html>

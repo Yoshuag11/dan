@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<meta http-equiv="X-UA-Compatible" content="ie=edge">
+	<title>Document</title>
+	<style>
+		#results {
+			border-style: solid;
+			border-width: 1px;
+			border-color: red;
+			background-color: yellow;
+		}
+		#results li.pass { color: green; }
+		#results li.fail {
+			color: red;
+			text-decoration: line-through;
+		}
+	</style>
+</head>
+<body>
+	<ul id="results"></ul>
+	<script>
+		function assert(value, desc) {
+			var li = document.createElement('li');
+			li.className = value ? 'pass' : 'fail';
+			li.appendChild(document.createTextNode(desc));
+			document.getElementById('results').appendChild(li);
+		}
+		Function.prototype.partial = function () {
+			var fn = this, args = Array.prototype.slice.call(arguments);
+			return function () {
+				var arg = 0;
+				for (var i = 0; i < args.length && arg < arguments.length; i += 1) {
+					if (args[i] === undefined) {
+						args[i] = arguments[arg++];
+					}
+				}
+				return fn.apply(this, args);
+			};
+		};
+		// function test (a, b, c) {
+		// 	assert(true, `value of a is = ${a}`);
+		// 	assert(true, `value of b is = ${b}`);
+		// 	assert(true, `value of c is = ${c}`);
+		// }
+		// var testOne = test.partial(1, undefined, undefined);
+		// testOne('a', 'b', 'c');
+		// var testTwo = test.partial(1, 2, undefined);
+		// testTwo('a', 'b', 'c');
+		// var testThree = test.partial(1, 2, 3);
+		// testThree('a', 'b', 'c');
+		var delay = setTimeout.partial(undefined, 3000);
+		delay(function () {
+			assert(true, 'A call to this function will be delayed 10 ms.')
+		});
+		var bindClick = document.body.addEventListener.partial(
+			'click', undefined, false);
+		bindClick(function () {
+			assert(true, 'Click event bound via curried function.');
+		});
+	</script>
+</body>
+</html>

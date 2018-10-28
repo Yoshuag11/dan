@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<meta http-equiv="X-UA-Compatible" content="ie=edge">
+	<title>Document</title>
+	<style>
+		#results {
+			border-style: solid;
+			border-width: 1px;
+			border-color: red;
+			background-color: yellow;
+		}
+		#results li.pass { color: green; }
+		#results li.fail {
+			color: red;
+			text-decoration: line-through;
+		}
+	</style>
+</head>
+<body>
+	<ul id="results"></ul>
+	<script>
+		function assert(value, desc) {
+			var li = document.createElement('li');
+			li.className = value ? 'pass' : 'fail';
+			li.appendChild(document.createTextNode(desc));
+			document.getElementById('results').appendChild(li);
+		}
+		Function.prototype.bind = function () {
+			var fn = this, args = Array.prototype.slice.call(arguments),
+				object = args.shift();
+
+			return function () {
+				return fn.apply(object,
+					args.concat(Array.prototype.slice.call(arguments)));
+			};
+		};
+		var myObject = {};
+		function myFunction () {
+			return this === myObject;
+		}
+		assert(!myFunction(), 'Context is not set yet');
+		var aFunction = myFunction.bind(myObject);
+		assert(aFunction, 'Context is set properly!');
+	</script>
+</body>
+</html>

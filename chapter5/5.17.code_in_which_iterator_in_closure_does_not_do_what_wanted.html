@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<meta http-equiv="X-UA-Compatible" content="ie=edge">
+	<title>Document</title>
+</head>
+<body>
+	<div>DIV 0</div>
+	<div>DIV 1</div>
+	<script>
+		function assert(value, desc) {
+			var li = document.createElement('li');
+			li.className = value ? 'pass' : 'fail';
+			li.appendChild(document.createTextNode(desc));
+			document.getElementById('results').appendChild(li);
+		}
+		var divs = document.getElementsByTagName('div');
+
+		for (var i = 0; i < divs.length; i += 1) {
+			divs[i].addEventListener('click', function () {
+				alert('divs #' + i + ' was clicked.');
+			}, false);
+		}
+	</script>
+</body>
+</html>

@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<meta http-equiv="X-UA-Compatible" content="ie=edge">
+	<title>Document</title>
+	<style>
+		#results li.pass { color: green; }
+		#results li.fail {
+			color: red;
+			text-decoration: line-through;
+		}
+	</style>
+</head>
+<body>
+	<ul id="results"></ul>
+	<script>
+		function assert(value, desc) {
+			var li = document.createElement('li');
+			li.className = value ? 'pass' : 'fail';
+			li.appendChild(document.createTextNode(desc));
+			document.getElementById('results').appendChild(li);
+		}
+		function merge (root) {
+			for (var i = 1; i < arguments.length; i += 1) {
+				for (var key in arguments[i]) {
+					root[key] = arguments[i][key];
+				}
+			}
+			return root;
+		}
+		var merged = merge({name: 'Batou'}, {city: 'Niihama'});
+
+		assert(merged.name == 'Batou', 'The original name is intact.');
+		assert(merged.city == 'Niihama', 'And the city has been copied over.');
+	</script>
+</body>
+</html>

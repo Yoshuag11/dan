@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<meta http-equiv="X-UA-Compatible" content="ie=edge">
+	<title>Document</title>
+	<style>
+		#results {
+			border-style: solid;
+			border-width: 1px;
+			border-color: red;
+			background-color: yellow;
+		}
+		#results li.pass { color: green; }
+		#results li.fail {
+			color: red;
+			text-decoration: line-through;
+		}
+	</style>
+</head>
+<body>
+	<button id="test">Click Me!</button>
+	<ul id="results"></ul>
+	<script>
+		function assert(value, desc) {
+			var li = document.createElement('li');
+			li.className = value ? 'pass' : 'fail';
+			li.appendChild(document.createTextNode(desc));
+			document.getElementById('results').appendChild(li);
+		}
+		function bind (context, name) {
+			return function () {
+				return context[name].apply(context, arguments);
+			}
+		}
+		var button = {
+			clicked: false,
+			click: function () {
+				this.clicked = true;
+				assert(button.clicked, 'The button has been clicked.');
+			}
+		};
+		var elem = document.getElementById('test');
+		elem.addEventListener('click', bind(button, 'click'), false);
+	</script>
+</body>
+</html>

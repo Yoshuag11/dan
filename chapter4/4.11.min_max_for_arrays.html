@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<meta http-equiv="X-UA-Compatible" content="ie=edge">
+	<title>Document</title>
+	<style>
+		#results li.pass { color: green; }
+		#results li.fail {
+			color: red;
+			text-decoration: line-through;
+		}
+	</style>
+</head>
+<body>
+	<ul id="results"></ul>
+	<script>
+		function assert(value, desc) {
+			var li = document.createElement('li');
+			li.className = value ? 'pass' : 'fail';
+			li.appendChild(document.createTextNode(desc));
+			document.getElementById('results').appendChild(li);
+		}
+		function smallest (array) {
+			return Math.min.apply(Math, array);
+		}
+		function largest (array) {
+			return Math.max.apply(Math, array);
+		}
+
+		assert(smallest([0, 1, 2, 3]) == 0,
+			'Located the smallest value.');
+		assert(largest([0, 1, 2, 3]) == 3,
+			'Located the largest value.');
+	</script>
+</body>
+</html>
