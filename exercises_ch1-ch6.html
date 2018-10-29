@@ -76,6 +76,11 @@
 		copyProp(objA, objB, ['job']);
 		assert(!objA.lastname && objA.job === 'Developer',
 			'Only specified properties were copied.');
+
+		/* 3rd question tests */
+		assert(true, '3rd question tests.');
+		var tree = new Tree('dan');
+		tree.addNode('dan2', 'dan');
 	</script>
 </body>
 </html>

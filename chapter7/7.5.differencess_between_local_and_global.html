@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<meta http-equiv="X-UA-Compatible" content="ie=edge">
+	<title>Document</title>
+	<style>
+		#results {
+			border-style: solid;
+			border-width: 1px;
+			border-color: red;
+			background-color: yellow;
+		}
+		#results li.pass { color: green; }
+		#results li.fail {
+			color: red;
+			text-decoration: line-through;
+		}
+	</style>
+</head>
+<body>
+	<div id="opacity" style="opacity:0.5;filter:alpha(opacity=50);"></div>
+	<ul id="results"></ul>
+	<script>
+		function assert(value, desc) {
+			var li = document.createElement('li');
+			li.className = value ? 'pass' : 'fail';
+			li.appendChild(document.createTextNode(desc));
+			document.getElementById('results').appendChild(li);
+		}
+		var html = '<div class="test"><b>Hello</b> <i>world!</i></div>';
+		var results = html.match(/<(\/?)(\w+)([^>]*?)>/);
+
+		assert(results[0] === '<div class="test">', 'The entire match.');
+		assert(results[1] === '', 'The (missing) slash.');
+		assert(results[2] === 'div', 'The tag name.');
+		assert(results[3] === ' class="test"', 'The attributes.');
+
+		var all = html.match(/<(\/?)(\w+)([^>]*?)>/g);
+
+		assert(all[0] === '<div class="test">', 'Opening div tag.');
+		assert(all[1] === '<b>', 'Opening b tag.');
+		assert(all[2] === '</b>', 'Closing div tag.');
+		assert(all[3] === '<i>', 'Opening i tag.');
+		assert(all[4] === '</i>', 'Closing div tag.');
+		assert(all[5] === '</div>', 'Closing div tag.');
+	</script>
+</body>
+</html>

@@ -219,5 +219,194 @@ function hybrid (thing) {
 // g = hybrid('pajaro caripocapote');
 
 // 6
-function countTreeElements () {}
-function Element (parent) {}
+function Node (information) {
+	this.information = information;
+	this.nodes = [];
+	this.parent = null;
+}
+function Tree (information) {
+	rootNode = new Node(information);
+	this.getRootNode = function () {
+		return rootNode;
+	};
+}
+Tree.prototype.addNode = function (information, nodeInformation) {
+	var nodeParent = this.getNode(nodeInformation);
+	var newNode = new Node(information);
+	newNode.parent = nodeParent;
+
+	nodeParent.nodes.push(newNode);
+};
+Tree.prototype.getNode = (function () {
+	var nodeInformation;
+
+	function getNode(rootNode) {
+		var nodes = rootNode.nodes;
+		var length = nodes.length;
+		var node;
+		var i;
+
+		for (i = 0; i < length; i += 1) {
+			node = nodes[i];
+
+			if (node.information === nodeInformation) {
+				return node;
+			} else {
+				node = getNode(node);
+				if (node) {
+					return node;
+				}
+			}
+		}
+	}
+	return function (information) {
+		var rootNode = this.getRootNode();
+		nodeInformation = information;
+	
+		if (rootNode.information === nodeInformation) {
+			return rootNode;
+		}
+		return getNode(rootNode);
+	};
+})();
+Tree.prototype.printTree1 = function () {
+	var root = this.getRootNode();
+	var globalOutput = `${root.information}\n`;
+	var nodes = root.nodes;
+	var length = nodes.length;
+	var globalCharacter;
+	var characters = [];
+	var i;
+
+	function printNodes (node, spaces, firstCharacter) {
+		// var tmpSpaces = spaces;
+		var output = globalCharacter;
+		var length;
+		var character;
+		var nodes = node.nodes;
+		var length = nodes.length;
+		var index = characters.length;
+		var currentCharacter;
+		var i;
+
+		for (i = 0; i < index; i += 1) {
+			currentCharacter = characters[i];
+			output += currentCharacter;
+
+			if (currentCharacter ===  '└') {
+				characters[i] = ' '; 
+			}
+		}
+
+		if (globalCharacter === '└') {
+			globalCharacter = ' '; 
+		}
+
+		output += `-${node.information}\n`
+
+		if (length) {
+			characters.push(' ');
+			index += 1;
+
+			for (i = 0; i < length; i += 1) {
+				if (i + 1 === length) {
+					characters[index] = '└';
+				} else {
+					characters[index] = '|';
+				}
+	
+				output += printNodes(nodes[i], spaces, character);
+			}
+
+			characters.pop();
+			characters.pop();
+		}
+		return output;
+	}
+	for (i = 0; i < length; i += 1) {
+		if (i + 1 === length) {
+			globalCharacter = '└';
+		} else {
+			globalCharacter = '|';
+		}
+		globalOutput += printNodes(nodes[i], 0);
+	}
+	return globalOutput;
+};
+Tree.prototype.printTree = function () {
+	var root = this.getRootNode();
+	var characters = [];
+
+	function printNodes (node, root) {
+		var output = '';
+		var length;
+		var nodes = node.nodes;
+		var length = nodes.length;
+		var index = characters.length;
+		var currentCharacter;
+		var i;
+
+		for (i = 0; i < index; i += 1) {
+			currentCharacter = characters[i];
+			output += currentCharacter;
+
+			if (currentCharacter ===  '└') {
+				characters[i] = ' '; 
+			}
+		}
+
+		if (root) {
+			output += `${node.information}\n`
+		} else {
+			output += `-${node.information}\n`
+		}
+
+		if (length) {
+			if (!root) {
+				characters.push(' ');
+				index += 1;
+			}
+
+			for (i = 0; i < length; i += 1) {
+				if (i + 1 === length) {
+					characters[index] = '└';
+				} else {
+					characters[index] = '|';
+				}
+	
+				output += printNodes(nodes[i]);
+			}
+			if (!root) {
+				characters.pop();
+				characters.pop();
+			}
+		}
+		return output;
+	}
+	return printNodes(root, true);
+};
+
+var tree = new Tree('A');
+var root = tree.getRootNode();
+tree.addNode('a', 'A');
+tree.addNode('aa', 'a');
+tree.addNode('aaa', 'aa');
+tree.addNode('aaaa', 'aaa');
+tree.addNode('aab', 'aa');
+tree.addNode('ab', 'a');
+tree.addNode('b', 'A');
+tree.addNode('ba', 'b');
+tree.addNode('bb', 'b');
+tree.addNode('bba', 'bb');
+tree.addNode('bbb', 'bb');
+tree.addNode('bbba', 'bbb');
+tree.addNode('bbbaa', 'bbba');
+tree.addNode('bbbb', 'bbb');
+tree.addNode('bbc', 'bb');
+tree.addNode('c', 'A');
+tree.addNode('ca', 'c');
+tree.addNode('cb', 'c');
+tree.addNode('cba', 'cb');
+tree.addNode('d', 'A');
+tree.addNode('da', 'd');
+var treeOutput = tree.printTree();

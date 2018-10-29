@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<meta http-equiv="X-UA-Compatible" content="ie=edge">
+	<title>Document</title>
+	<style>
+		#results {
+			border-style: solid;
+			border-width: 1px;
+			border-color: red;
+			background-color: yellow;
+		}
+		#results li.pass { color: green; }
+		#results li.fail {
+			color: red;
+			text-decoration: line-through;
+		}
+	</style>
+</head>
+<body>
+	<div class="samurai ninja"></div>
+	<div class="ninja samurai"></div>
+	<div></div>
+	<span class="samurai ninja ronin"></span>
+	<ul id="results"></ul>
+	<script>
+		function assert(value, desc) {
+			var li = document.createElement('li');
+			li.className = value ? 'pass' : 'fail';
+			li.appendChild(document.createTextNode(desc));
+			document.getElementById('results').appendChild(li);
+		}
+		function findClassInElements(className, type) {
+			var elems = document.getElementsByTagName(type || '*');
+			var regex = new RegExp('(^|\\s)' + className + '(\\s|$)');
+			var results = [];
+
+			for (var i = 0, length = elems.length; i < length; i += 1) {
+				if (regex.test(elems[i].className)) {
+					results.push(elems[i]);
+				}
+			}
+			return results;
+		}
+
+		assert(findClassInElements('ninja', 'div').length === 2,
+			'The right amount of div ninjas was found.');
+		assert(findClassInElements('ninja', 'span').length === 1,
+			'The right amount of span ninjas was found.');
+		assert(findClassInElements('ninja').length === 3,
+			'The right amount of ninjas was found.');
+	</script>
+</body>
+</html>

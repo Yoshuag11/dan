@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<meta http-equiv="X-UA-Compatible" content="ie=edge">
+	<title>Document</title>
+	<style>
+		#results {
+			border-style: solid;
+			border-width: 1px;
+			border-color: red;
+			background-color: yellow;
+		}
+		#results li.pass { color: green; }
+		#results li.fail {
+			color: red;
+			text-decoration: line-through;
+		}
+	</style>
+</head>
+<body>
+	<ul id="results"></ul>
+	<script>
+		function assert(value, desc) {
+			var li = document.createElement('li');
+			li.className = value ? 'pass' : 'fail';
+			li.appendChild(document.createTextNode(desc));
+			document.getElementById('results').appendChild(li);
+		}
+		var html = '<div class="test"><b>Hello</b> <i>world!</i></div>';
+		var match;
+		var tag = /<(\/?)(\w+)([^>]*?)>/g;
+		var num = 0;
+
+		while ((match = tag.exec(html)) !== null) {
+			assert(match.length === 4, 'Every match finds each tag and 3 captures.');
+			num += 1;
+		}
+
+		assert(num === 6, '3 opening and 3 closing tags found.');
+	</script>
+</body>
+</html>
