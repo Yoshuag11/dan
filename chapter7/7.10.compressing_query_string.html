@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<meta http-equiv="X-UA-Compatible" content="ie=edge">
+	<title>Document</title>
+	<style>
+		#results {
+			border-style: solid;
+			border-width: 1px;
+			border-color: red;
+			background-color: yellow;
+		}
+		#results li.pass { color: green; }
+		#results li.fail {
+			color: red;
+			text-decoration: line-through;
+		}
+	</style>
+</head>
+<body>
+	<ul id="results"></ul>
+	<script>
+		function assert(value, desc) {
+			var li = document.createElement('li');
+			li.className = value ? 'pass' : 'fail';
+			li.appendChild(document.createTextNode(desc));
+			document.getElementById('results').appendChild(li);
+		}
+		function compress (source) {
+			var keys = {};
+
+			source.replace(
+				/([^=&]+)=([^&]*)/g,
+				function (full, key, value) {
+					keys[key] = (keys[key] ? keys[key] + ',' : '') + value;
+					return '';
+				}
+			);
+			var result = [];
+
+			for (var key in keys) {
+				result.push(key + '=' + keys[key]);
+			}
+			return result.join('&');
+		}
+
+		assert(
+			compress('foo=1&foo=2&blah=a&blah=b&foo=3') === 'foo=1,2,3&blah=a,b',
+			'Compression is OK!');
+	</script>
+</body>
+</html>

@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<meta http-equiv="X-UA-Compatible" content="ie=edge">
+	<title>Document</title>
+	<style>
+		#results {
+			border-style: solid;
+			border-width: 1px;
+			border-color: red;
+			background-color: yellow;
+		}
+		#results li.pass { color: green; }
+		#results li.fail {
+			color: red;
+			text-decoration: line-through;
+		}
+	</style>
+</head>
+<body>
+	<ul id="results"></ul>
+	<script>
+		function assert(value, desc) {
+			var li = document.createElement('li');
+			li.className = value ? 'pass' : 'fail';
+			li.appendChild(document.createTextNode(desc));
+			document.getElementById('results').appendChild(li);
+		}
+		var html = '<b class="hello">Hello</b> <i>world!</i>';
+		var pattern = /<(\w+)([^>]*)>(.*?)<\/\1>/g;
+		var match = pattern.exec(html);
+
+		assert(match[0] === '<b class="hello">Hello</b>',
+			'The entire tag, start to finish.');
+		assert(match[1] === 'b', 'The tag name.');
+		assert(match[2] === ' class="hello"', 'The tag attributes.');
+		assert(match[3] === 'Hello', 'The contents of the tag.');
+
+		match = patter.exec(html);
+
+		assert(match[0] === '<i>world!</i>', 'The entire tag, start to finish.');
+		assert(match[1] === 'i', 'The tag name.');
+		assert(match[2] === '', 'The tag attributes.');
+		assert(match[3] === 'world!', 'The contents of the tag.');
+	</script>
+</body>
+</html>
