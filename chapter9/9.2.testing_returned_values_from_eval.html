@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<meta http-equiv="X-UA-Compatible" content="ie=edge">
+	<title>Document</title>
+	<style>
+		#results {
+			border-style: solid;
+			border-width: 1px;
+			border-color: red;
+			background-color: yellow;
+		}
+		#results li.pass { color: green; }
+		#results li.fail {
+			color: red;
+			text-decoration: line-through;
+		}
+	</style>
+</head>
+<body>
+	<ul id="results"></ul>
+	<script>
+		function assert(value, desc) {
+			var li = document.createElement('li');
+			li.className = value ? 'pass' : 'fail';
+			li.appendChild(document.createTextNode(desc));
+			document.getElementById('results').appendChild(li);
+		}
+		var ninja = eval('({name: "Ninja"})');
+
+		assert(ninja !== undefined, 'The ninja was created.');
+		assert(ninja.name === 'Ninja', 'and with the expected property.');
+
+		var fn = eval('(function () { return "Ninja"; })');
+
+		assert(typeof fn === 'function', 'the function was created');
+		assert(fn() === 'Ninja', 'and returns expected value');
+
+		var ninja2 = eval('{name: "Ninja"}');
+
+		assert(ninja2 !== undefined, 'The ninja2 was created.');
+		assert(ninja2.name === 'Ninja', 'and with the expected property.');
+	</script>
+</body>
+</html>

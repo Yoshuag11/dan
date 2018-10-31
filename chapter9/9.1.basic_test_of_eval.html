@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<meta http-equiv="X-UA-Compatible" content="ie=edge">
+	<title>Document</title>
+	<style>
+		#results {
+			border-style: solid;
+			border-width: 1px;
+			border-color: red;
+			background-color: yellow;
+		}
+		#results li.pass { color: green; }
+		#results li.fail {
+			color: red;
+			text-decoration: line-through;
+		}
+	</style>
+</head>
+<body>
+	<ul id="results"></ul>
+	<script>
+		function assert(value, desc) {
+			var li = document.createElement('li');
+			li.className = value ? 'pass' : 'fail';
+			li.appendChild(document.createTextNode(desc));
+			document.getElementById('results').appendChild(li);
+		}
+		assert(eval('5 + 5') === 10, '5 and 5 is 10.');
+		assert(eval('var ninja = 5;') === undefined, 'No value was returned.');
+		assert(ninja === 5, 'The variable ninja was created.');
+		(function () {
+			eval('var ninja = 6;');
+			assert(ninja === 6, 'Evaluated within the current scope.')
+		})();
+		assert(window.ninja === 5, 'The global scope was unaffected.');
+		assert(ninja === 5, 'The global scope was unaffected.');
+	</script>
+</body>
+</html>
