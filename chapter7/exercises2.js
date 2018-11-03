@@ -46,6 +46,7 @@ for (i = 0, length = testStrings.length; i < length; i += 1) {
 		throw `Test ${regExp} was not satisfied for string "${testStrings[i]}".`;
 	}
 }
+
 // C
 regExp = /^[a-zA-Z]+\.(?:java|cpp|txt)$/;
 testStrings = ['test.java', 'program.cpp', 'newReport.txt'];
@@ -133,7 +134,6 @@ function cyclically (candidate) {
 // B
 var twitterHashTags = (function () {
 	var hasTagPrefix = 'https://twitter.com/search?q=%23';
-	var hashTags = [];
 	return function (text, words) {
 		var i;
 		var length;
@@ -141,6 +141,15 @@ var twitterHashTags = (function () {
 
 		for (i = 0, length = words.length; i < length; i += 1) {
 			word = words[i];
+
+			/**
+			 * check that words are not that lengthy (Twitter handles
+			 * maximum length of 15 characters).
+			 */
+			if (word.length > 15) {
+				continue;
+			}
+
 			text = text.replace(word, `<a href="${hasTagPrefix}${word}">#${word}</a>`)
 		}
 		return text;
@@ -151,3 +160,75 @@ var twitterHashTags = (function () {
 // console.log(answer);
 
 // C
+function matchPalindromes (words) {
+	var results = [];
+	var word;
+	var wordLength;
+	var length;
+	var middle;
+	var regex;
+	var j;
+	var i;
+
+	for (i = 0, length = words.length; i < length; i += 1) {
+		word = words[i];
+		wordLength = word.length;
+
+		if (wordLength === 1) {
+			results.push(word);
+			continue;
+		}
+
+		middle = Math.floor(wordLength / 2);
+		regex = word.substring(0, middle) + (wordLength % 2 ? '.' : '');
+
+		for (j = middle - 1; j >= 0; j -= 1) {
+			regex += regex[j];
+		}
+
+		regex = new RegExp(regex);
+
+		if (regex.test(word)) {
+			results.push(word);
+			continue;
+		}
+	}
+	return results;
+}
+
+// answer = matchPalindromes(['bbcacbb', 'bb', 'a', 'dan', 'danielleinad']);
+
+// Optional
+var toLeetSpeak = (function () {
+	var codes = {
+		l: '1',
+		e: '3',
+		a: '4',
+		t: '7',
+		d: 'D',
+		n: 'N',
+		s: '$',
+		p: '|>',
+		k: '|<',
+	};
+	return function (input) {
+		var character;
+		var length;
+		var result = '';
+		var code;
+		var i;
+
+		input = input.toLowerCase();
+
+		for (i = 0, length = input.length; i < length; i += 1) {
+			character = input[i];
+			code = codes[character];
+			result += code ? code : character;
+		}
+		return result;
+	};
+})();
+
+answer = toLeetSpeak('LEET SPEAK');
+answer = toLeetSpeak('Leet Speak');
+answer = toLeetSpeak('dan');

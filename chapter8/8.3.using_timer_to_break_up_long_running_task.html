@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<meta http-equiv="X-UA-Compatible" content="ie=edge">
+	<title>Document</title>
+	<style>
+		#results {
+			border-style: solid;
+			border-width: 1px;
+			border-color: red;
+			background-color: yellow;
+		}
+		#results li.pass { color: green; }
+		#results li.fail {
+			color: red;
+			text-decoration: line-through;
+		}
+	</style>
+</head>
+<body>
+	<ul id="results"></ul>
+	<table><tbody></tbody></table>
+	<script>
+		function assert(value, desc) {
+			var li = document.createElement('li');
+			li.className = value ? 'pass' : 'fail';
+			li.appendChild(document.createTextNode(desc));
+			document.getElementById('results').appendChild(li);
+		}
+		var rowCount = 20000;
+		var divideInto = 4;
+		var chunkSize = rowCount/divideInto;
+		var iteration = 0;
+		var tbody = document.getElementsByTagName('tbody')[0];
+
+		setTimeout(function generateRows () {
+			var base = chunkSize * iteration;
+
+			for (var i = 0; i < chunkSize; i += 1) {
+				var tr = document.createElement('tr');
+
+				for (var t = 0; t < 6; t += 1) {
+					var td = document.createElement('td');
+					td.appendChild(
+						document.createTextNode(
+							(i + base) + ',' + t + ',' + iteration));
+					tr.appendChild(td);
+				}
+
+				tbody.appendChild(tr);
+			}
+			iteration += 1;
+			if (iteration < dividedInto) {
+				setTimeout(generateRows, 0);
+			}
+		}, 0);
+	</script>
+</body>
+</html>

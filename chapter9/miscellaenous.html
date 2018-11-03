@@ -33,11 +33,64 @@
 
 		// var tick = window.setTimeout('alert("Hi!")', 100);
 
-		(function () {
-			eval('var test = 5;');
-		})();
+		// (function () {
+		// 	eval('var test = 5;');
+		// })();
 
-		assert(test === 5, 'Variable created in global scope.');
+		// assert(test === 5, 'Variable created in global scope.');
+
+		var FUNCTION_DECOMPILATION =
+			/abc(.|\n)*xyz/.test(function(abc){xyz;});
+
+		assert(FUNCTION_DECOMPILATION,
+			'Function decompilation works in this browser');
+		
+		function SpinSpots () { with(this) {
+			var __self = this; function superMethod () {
+				extendClass(__self, arguments, Spin);
+				this.dim = 0;
+				extendClass(this, Spin);
+				addMethod(this, 'display', function () {
+					noStroke();
+					pushMatrix();
+					translate(x, y);
+					angle += speed;
+					rotate(angle);
+					ellipse(-dim/2, 0, dim, dim);
+					ellipse(dim/2, 0, dim, dim);
+					popMatrix();
+				});
+
+				if (arguments.length === 4) {
+					var x = arguments[0];
+					var y = arguments[1];
+					var s = arguments[2];
+					var d = arguments[3];
+
+					superMethod(x, y, s);
+					dim = d;
+				}
+			}
+		}}
+	</script>
+	<script type="application/processing">
+		Class SpinSpots extends Spin {
+			float dim;
+			SpinSpots(float x, float y, float s, float d) {
+				super(x, y, s);
+				dim = d;
+			}
+			void display() {
+				noStroke();
+				pushMatrix();
+				translate(x, y);
+				angle += speed;
+				rotate(angle);
+				ellipse(-dim/2, 0, dim, dim);
+				ellipse(dim/2, 0, dim, dim);
+				popMatrix();
+			}
+		}
 	</script>
 </body>
 </html>

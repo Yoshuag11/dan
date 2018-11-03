@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<meta http-equiv="X-UA-Compatible" content="ie=edge">
+	<title>Document</title>
+	<style>
+		#box {
+			width: 200px;
+			text-align: center;
+			position: relative;
+			border-color: darkblue;
+			border-style: solid;
+			border-width: 1px;
+			background-color: #99c2ff;
+		}
+	</style>
+</head>
+<body>
+	<div id="box">Hello!</div>
+	<script>
+		var timers = {
+			timerID: 0,
+			timers: [],
+			add: function (fn) {
+				this.timers.push(fn);
+			},
+			start: function () {
+				if (this.timerID) {
+					return;
+				}
+
+				(function runNext () {
+					if (timers.timers.length) {
+						for (var i = 0; i < timers.timers.length; i += 1) {
+							if (timers.timers[i]() === false) {
+								timers.timers.splice(i, 1);
+								i -= 1;
+							}
+						}
+						timers.timerID = setTimeout(runNext, 0);
+					}
+				})();
+			},
+			stop: function () {
+				clearTimeout(this.timerID);
+				this.timerID = 0;
+			}
+		};
+		var box = document.getElementById('box'), x = 0, y = 20;
+
+		timers.add(function () {
+			box.style.left = x + 'px';
+			if (++x > 50) {
+				return false;
+			}
+		});
+		timers.add(function () {
+			box.style.top = y + 'px';
+			y += 2;
+
+			if (y > 120) {
+				return false;
+			}
+		});
+		timers.start();
+	</script>
+</body>
+</html>

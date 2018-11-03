@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<meta http-equiv="X-UA-Compatible" content="ie=edge">
+	<title>Document</title>
+	<style>
+		#results {
+			border-style: solid;
+			border-width: 1px;
+			border-color: red;
+			background-color: yellow;
+		}
+		#results li.pass { color: green; }
+		#results li.fail {
+			color: red;
+			text-decoration: line-through;
+		}
+	</style>
+</head>
+<body>
+	<ul id="results"></ul>
+	<script>
+		function assert(value, desc) {
+			var li = document.createElement('li');
+			li.className = value ? 'pass' : 'fail';
+			li.appendChild(document.createTextNode(desc));
+			document.getElementById('results').appendChild(li);
+		}
+
+		var use = 'other';
+		var katana = {
+			isSharp: true,
+			use: function () {
+				this.isSharp = !this.isSharp;
+			}
+		};
+
+		with (katana) {
+			assert(use !== 'other' && typeof use === 'function',
+				'use is a function from the katana object.');
+			assert(this !== katana && typeof use === 'function',
+				"context isn't changed; keeps its original value.");
+		}
+
+		assert(use === 'other',
+			'outside the with use is unaffected.');
+		assert(typeof isSharp === 'undefined',
+			"outside the with the properties don't exist.");
+	</script>
+</body>
+</html>

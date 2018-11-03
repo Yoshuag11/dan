@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<meta http-equiv="X-UA-Compatible" content="ie=edge">
+	<title>Document</title>
+	<style>
+		#results {
+			border-style: solid;
+			border-width: 1px;
+			border-color: red;
+			background-color: yellow;
+		}
+		#results li.pass { color: green; }
+		#results li.fail {
+			color: red;
+			text-decoration: line-through;
+		}
+	</style>
+</head>
+<body>
+	<ul id="results"></ul>
+	<script>
+		function assert(value, desc) {
+			var li = document.createElement('li');
+			li.className = value ? 'pass' : 'fail';
+			li.appendChild(document.createTextNode(desc));
+			document.getElementById('results').appendChild(li);
+		}
+
+		var katana = {
+			isSharp: true,
+			use: function () {
+				this.isSharp = !this.isSharp;
+			}
+		};
+
+		with (katana) {
+			isSharp = false;
+
+			assert(katana.isSharp === false,
+				'properties can be assigned');
+			
+			cut = function () {
+				isSharp = false;
+			};
+
+			assert(typeof katana.cut === 'function',
+				"new properties can be created on the scoped object.");
+			assert(typeof window.cut === 'function',
+				'new properties are created in the global scope.');
+		}
+	</script>
+</body>
+</html>

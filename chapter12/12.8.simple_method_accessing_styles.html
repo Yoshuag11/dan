@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<meta http-equiv="X-UA-Compatible" content="ie=edge">
+	<title>Listing 12 something</title>
+	<link rel="stylesheet" href="/assert.css">
+	<script src="/assert.js"></script>
+</head>
+<body>
+	<div style="color:#000;font-size:10px;background-color:#eee;">
+	</div>
+	<ul id="results"></ul>
+	<script>
+		function style (element, name, value) {
+			name = name.replace(/-([a-z])/ig, function (all, letter) {
+					return letter.toUpperCase();
+				});
+
+			if (typeof value !== 'undefined') {
+				element.style[name] = value;
+			}
+			return element.style[name];
+		}
+
+		window.onload = function () {
+			var div = document.getElementsByTagName('div')[0];
+
+			assert(true, style(div, 'color'));
+			assert(true, style(div, 'font-size'));
+			assert(true, style(div, 'background-color'));
+		};
+	</script>
+</body>
+</html>

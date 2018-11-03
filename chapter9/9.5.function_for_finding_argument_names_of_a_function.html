@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<meta http-equiv="X-UA-Compatible" content="ie=edge">
+	<title>Document</title>
+	<style>
+		#results {
+			border-style: solid;
+			border-width: 1px;
+			border-color: red;
+			background-color: yellow;
+		}
+		#results li.pass { color: green; }
+		#results li.fail {
+			color: red;
+			text-decoration: line-through;
+		}
+	</style>
+</head>
+<body>
+	<ul id="results"></ul>
+	<script>
+		function assert(value, desc) {
+			var li = document.createElement('li');
+			li.className = value ? 'pass' : 'fail';
+			li.appendChild(document.createTextNode(desc));
+			document.getElementById('results').appendChild(li);
+		}
+		function arguments (fn) {
+			var found = /^[\s\(]*function[^(]*\(\s*([^)]*?)\s*\)/.
+				// exec(fn.toString());
+				exec(fn);
+				return found && found[1] ? found[1].split(/,\s*/) : [];
+		}
+
+		assert(arguments(function () {}).length === 0,
+			'Works on zero-arg functions.');
+		assert(arguments(function (x) {})[0] === 'x',
+			'Single argument working.');
+		var results = arguments(function (a,b,c,d,e) {});
+		assert(results[0] === 'a' &&
+			  results[1] === 'b' &&
+			  results[2] === 'c' &&
+			  results[3] === 'd' &&
+			  results[4] === 'e',
+			'Multiple arguments working!');
+	</script>
+</body>
+</html>

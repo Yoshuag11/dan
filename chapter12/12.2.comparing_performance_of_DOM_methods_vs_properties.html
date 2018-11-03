@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<meta http-equiv="X-UA-Compatible" content="ie=edge">
+	<title>Listing 12 something</title>
+	<link rel="stylesheet" href="/assert.css">
+	<script src="/assert.js"></script>
+</head>
+<body>
+	<ul id="results"></ul>
+	<div id="testSubject"></div>
+	<script>
+		var count = 5000000;
+		var n;
+		var begin = new Date();
+		var end;
+		var testSubject = document.getElementById('testSubject');
+
+		for (n = 0; n < count; n += 1) {
+			value = testSubject.getAttribute('id');
+		}
+		end = new Date();
+		assert(true, 'Time for DOM methods read: ' +
+			(end.getTime() - begin.getTime()));
+
+		begin = new Date();
+		for (n = 0; n < count; n += 1) {
+			value = testSubject.id;
+		}
+		end = new Date();
+		assert(true, 'Time for property read: ' +
+			(end.getTime() - begin.getTime()));
+
+		begin = new Date();
+		for (n = 0; n < count; n += 1) {
+			value = testSubject.setAttribute('id', 'testSubject');
+		}
+		end = new Date();
+		assert(true, 'Time for DOM method write: ' +
+			(end.getTime() - begin.getTime()));
+
+		begin = new Date();
+		for (n = 0; n < count; n += 1) {
+			value = testSubject.id = 'testSubject';
+		}
+		end = new Date();
+		assert(true, 'Time for property write: ' +
+			(end.getTime() - begin.getTime()));
+	</script>
+</body>
+</html>

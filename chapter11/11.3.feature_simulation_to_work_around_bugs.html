@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<meta http-equiv="X-UA-Compatible" content="ie=edge">
+	<title>Listing 11.3</title>
+	<link rel="stylesheet" href="/assert.css">
+	<script src="/assert.js"></script>
+</head>
+<body>
+	<ul id="results"></ul>
+	<div><!-- comment #1 --></div>
+	<div><!-- comment #2 --></div>
+	<script>
+		function getAllElements (name) {
+			if (!window.findByTagWorksAsExpected) {
+				window.findByTagWorksAsExpected = (function () {
+					var div = document.createElement('div');
+					div.appendChild(document.createComment('test'));
+					return div.getElementsByTagName('*').length === 0;
+				})();
+			}
+
+			var allElements = document.getElementsByTagName('*');
+
+			if (!window.findByTagWorksAsExpected) {
+				for (var n = allElements.length - 1; n >= 0; n -= 1) {
+					if (allElements[n].nodeType === 1) {
+						allElements.splice(n, 1);
+					}
+				}
+			}
+			return allElements;
+		}
+
+		var elements = getAllElements();
+		var elementCount = elements.length;
+
+		for (var n = 0; n < elementCount; n += 1) {
+			assert(elements[n].nodeType === 1,
+				'Node is an element node.');
+		}
+	</script>
+</body>
+</html>

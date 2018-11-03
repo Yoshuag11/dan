@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<meta http-equiv="X-UA-Compatible" content="ie=edge">
+	<title>Listing 12 something</title>
+	<link rel="stylesheet" href="/assert.css">
+	<script src="/assert.js"></script>
+</head>
+<body>
+	<a href="chapter12/12.5.demonstrating_URL_normalization_issue.html"
+		id="testSubject">Self</a>
+	<ul id="results"></ul>
+	<script>
+		var link = document.getElementById('testSubject');
+		var linkHref = link.getAttributeNode('href').nodeValue;
+
+		assert(linkHref ===
+			  'chapter12/12.5.demonstrating_URL_normalization_issue.html',
+			'link node value is ok');
+		assert(link.href ===
+			  'chapter12/12.5.demonstrating_URL_normalization_issue.html',
+			'link property value is ok');
+		assert(link.getAttribute('href') === linkHref,
+			'link attribute not modified.');
+	</script>
+</body>
+</html>

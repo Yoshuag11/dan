@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<meta http-equiv="X-UA-Compatible" content="ie=edge">
+	<title>Document</title>
+	<style>
+		#results {
+			border-style: solid;
+			border-width: 1px;
+			border-color: red;
+			background-color: yellow;
+		}
+		#results li.pass { color: green; }
+		#results li.fail {
+			color: red;
+			text-decoration: line-through;
+		}
+	</style>
+</head>
+<body>
+	<ul id="results"></ul>
+	<script>
+		function assert(value, desc) {
+			var li = document.createElement('li');
+			li.className = value ? 'pass' : 'fail';
+			li.appendChild(document.createTextNode(desc));
+			document.getElementById('results').appendChild(li);
+		}
+
+		var ninja = { foo: 'bar' };
+		var value;
+		var maxCount = 1000000;
+		var n;
+		var start;
+		var elapsed;
+
+		start = new Date().getTime();
+
+		for (n = 0; n < maxCount; n += 1) {
+			value = ninja.foo;
+		}
+
+		elapsed = new Date().getTime() - start;
+		assert(true, 'Without with: ' + elapsed);
+
+		start = new Date().getTime();
+		with (ninja) {
+			for (n = 0; n < maxCount; n += 1) {
+				value = foo;
+			}
+		}
+		elapsed = new Date().getTime() - start;
+		assert(true, 'With (with access): ' + elapsed);
+
+		start = new Date().getTime();
+		with (ninja) {
+			for (n = 0; n < maxCount; n += 1) {
+				foo = n;
+			}
+		}
+		elapsed = new Date().getTime() - start;
+		assert(true, 'With (with assignment): ' + elapsed);
+
+		start = new Date().getTime();
+		with (ninja) {
+			for (n = 0; n < maxCount; n += 1) {
+				value = 'no test';
+			}
+		}
+		elapsed = new Date().getTime() - start;
+		assert(true, 'With (without access): ' + elapsed);
+	</script>
+</body>
+</html>
