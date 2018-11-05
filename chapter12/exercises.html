@@ -6,54 +6,33 @@
 	<meta http-equiv="X-UA-Compatible" content="ie=edge">
 	<title>Listing 12 something</title>
 	<link rel="stylesheet" href="/assert.css">
-	<style>
-		div {
-			background-color: #ffc;
-			display: inline;
-			font-size: 1.8em;
-			border: 1px solid crimson;
-			color: green;
-		}
-	</style>
 	<script src="/assert.js"></script>
 </head>
 <body>
 	<ul id="results"></ul>
-	<div style="color:crimson" id="testSubject" title="Ninja power!">
-		忍者パワー
-	</div>
+	<div id="a" class="square" style="display:inline-block"
+		val="something important"></div>
 	<script>
-		function fetchComputedStyle (element, property) {
-			if (window.getComputedStyle) {
-				var computedStyles = window.getComputedStyle(element);
+		function printAttr (element, attr) {
+			var result = [];
+			var length;
+			var i;
 
-				if (computedStyles) {
-					property = property.replace(/([A-Z])/g, '-$1').toLowerCase();
-					return computedStyles.getPropertyValue(property);
+			
+			if (typeof attr === 'string') {
+				assert(true, element.getAttribute(attr));
+			} else {
+				length = attr.length;
+
+				for (i = 0; i < length; i += 1) {
+					assert(true, element.getAttribute(attr[i]));
 				}
-			} else if (element.currentStyle) {
-				property = property.replace(/-([a-z])/ig,
-					function (all, letter) {
-						return letter.toUpperCase();
-					});
-				return element.currentStyle[property];
 			}
 		}
 
 		window.onload = function () {
-			var div = document.getElementById('testSubject');
-
-			assert(true,
-				'background-color: ' +
-					fetchComputedStyle(div, 'background-color'));
-			assert(true, 'display: ' + fetchComputedStyle(div, 'display'));
-			assert(true, 'font-size: ' +
-				fetchComputedStyle(div, 'fontSize'));
-			assert(true, 'color: ' + fetchComputedStyle(div, 'color'));
-			assert(true, 'border-top-color: ' +
-				fetchComputedStyle(div, 'borderTopColor'));
-			assert(true, 'border-top-width: ' +
-				fetchComputedStyle(div, 'border-top-width'));
+			var div = document.getElementById('a');
+			printAttr(div, ['id', 'class', 'style', 'val']);
 		}
 	</script>
 </body>

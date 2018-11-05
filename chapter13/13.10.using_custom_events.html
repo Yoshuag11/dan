@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<meta http-equiv="X-UA-Compatible" content="ie=edge">
+	<title>Listing 13 something</title>
+	<style>
+		#whirlyThing { display: none; }
+	</style>
+	<script src="fixup.js"></script>
+	<script src="data.js"></script>
+	<script src="event.js"></script>
+	<script src="trigger.js"></script>
+	<script src="ajaxy-operation.js"></script>
+</head>
+<body>
+	<button type="button" id="clickMe">Start</button>
+	<img id="whirlyThing" src="whirly-thing.gif">
+	<script>
+		addEvent(window, 'load', function () {
+			var button = document.getElementById('clickMe');
+
+			addEvent(button, 'click', function () {
+				performAjaxOperation(this);
+			});
+
+			var body = document.getElementsByTagName('body')[0];
+
+			addEvent(body, 'ajax-start', function (e) {
+				document.getElementById('whirlyThing').
+					style.display = 'inline-block';
+			});
+			addEvent(body, 'ajax-complete', function (e) {
+				document.getElementById('whirlyThing').
+					style.display = 'none';
+			});
+		});
+	</script>
+</body>
+</html>

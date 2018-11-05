@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<meta http-equiv="X-UA-Compatible" content="ie=edge">
+	<title>Listing 13 something</title>
+	<link rel="stylesheet" href="/assert.css">
+	<script src="/assert.js"></script>
+</head>
+<body>
+	<div title="Ninja Power!">忍者パワー!</div>
+	<div title="Secrets">秘密</div>
+	<ul id="results"></ul>
+	<script>
+		(function () {
+			var cache = {};
+			var guidCounter = 1;
+			var expando = 'data' + new Date().getTime();
+
+			this.getData = function (elem) {
+				var guid = elem[expando];
+
+				if (!guid) {
+					guid = elem[expando] = guidCounter += 1;
+					cache[guid] = {};
+				}
+				return cache[guid];
+			};
+			this.removeData = function (elem) {
+				var guid = elem[expando];
+
+				if (!guid) {
+					return;
+				}
+
+				delete cache[guid];
+
+				try {
+					delete elem[expando];
+				} catch (e) {
+					if (elem.removeAttribute) {
+						elem.removeAttribute[expando];
+					}
+				}
+			};
+		})();
+
+		var elems = document.getElementsByTagName('div');
+
+		for (var n = 0; n < elems.length; n += 1) {
+			getData(elems[n]).ninja = elems[n].title;
+		}
+		for (var n = 0; n < elems.length; n += 1) {
+			assert(getData(elems[n]).ninja === elems[n].title,
+				'Stored data is ' + getData(elems[n]).ninja);
+		}
+		for (var n = 0; n < elems.length; n += 1) {
+			removeData(elems[n]);
+			assert(getData(elems[n]).ninja === undefined,
+				'Stored data has been destroyed.');
+		}
+	</script>
+</body>
+</html>

@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<meta http-equiv="X-UA-Compatible" content="ie=edge">
+	<title>Listing 13 something</title>
+	<script src="/chapter13/fixup.js"></script>
+	<script src="/chapter13/data.js"></script>
+	<script src="/chapter13/event.js"></script>
+</head>
+<body>
+	<div id="testSubject1" title="Click once">一度クリックします</div>
+	<div id="testSubject2" title="mouse over">マウス</div>
+	<div id="testSubject3" title="many times">何度も</div>
+	<script>
+		addEvent(window, 'load', function () {
+			var subjects = document.getElementsByTagName('div');
+			
+			for (var i = 0; i < subjects.length; i += 1) {
+				(function (elem) {
+					addEvent(elem, 'mouseover', function handler (e) {
+						this.style.background = 'red';
+					});
+					addEvent(elem, 'click', function handler (e) {
+						this.style.backgroundColor = 'green';
+						removeEvent(elem, 'click', handler);
+					});
+				})(subjects[i]);
+			}
+		});
+	</script>
+</body>
+</html>

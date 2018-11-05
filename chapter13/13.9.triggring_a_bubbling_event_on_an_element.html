@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<meta http-equiv="X-UA-Compatible" content="ie=edge">
+	<title>Listing 13 something</title>
+	<link rel="stylesheet" href="/assert.css">
+	<script src="/assert.js"></script>
+</head>
+<body>
+	<div id="testSubject1" title="Click once">一度クリックします</div>
+	<div id="testSubject2" title="mouse over">マウス</div>
+	<div id="testSubject3" title="many times">何度も</div>
+	<ul id="results"></ul>
+	<script>
+		function triggerEvent (elem, event) {
+			var elemData = getData(elem);
+			var parent = elem.parentNode || elem.ownerDocument;
+
+			if (typeof event === 'string') {
+				event = { type: event, target: elem };
+			}
+
+			event = fixEvent(event);
+
+			if (elemData.dispatcher) {
+				elemData.dispatcher.call(elem, event);
+			}
+			if (parent && !event.isPropagationStopped()) {
+				triggerEvent(parent, event);
+			} else if (!parent && !event.isDefaultPrevented()) {
+				var targetData = getData(event.target);
+
+				if (event.target[event.type]) {
+					targetData.disabled = true;
+
+					event.target[event.type]();
+
+					targetData.disabled = false;
+				}
+			}
+		}
+	</script>
+</body>
+</html>

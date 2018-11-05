@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<meta http-equiv="X-UA-Compatible" content="ie=edge">
+	<title>Listing 13 something</title>
+	<link rel="stylesheet" href="/assert.css">
+	<script src="/assert.js"></script>
+	<script src="/chapter13/data.js"></script>
+</head>
+<body>
+	<ul id="results"></ul>
+	<script>
+		(function () {
+			var nextGuid = 1;
+
+			this.addEvent = function (elem, type, fn) {
+				var data = getData(elem);
+
+				if (!data.handlers) {
+					data.handlers = {};
+				}
+				if (!data.handlers[type]) {
+					data.handlers[type] = [];
+				}
+
+				if (!fn.guid) {
+					fn.guid = nextGuid++;
+				}
+
+				data.handlers[type].push(fn);
+
+				if (!data.dispatcher) {
+					data.disabled = false;
+					data.dispatcher = function (event) {
+						if (data.disabled) {
+							return;
+						}
+
+						event = fixEvent(event);
+
+						var handlers = data.handlers[event.type];
+
+						if (handlers) {
+							for (var n = 0; n < handlers.length; n += 1) {
+								handlers[n].call(elem, event);
+							}
+						}
+					}
+				}
+				if (data.handlers[type] === 1) {
+					if (document.addEventListener) {
+						elem.addEventListener(type, data.dispatcher, false);
+					} else if (document.attachEvent) {
+						elem.attachEvent('on' + type, data.dispatcher);
+					}
+				}
+			}
+		})();
+	</script>
+</body>
+</html>

@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<meta http-equiv="X-UA-Compatible" content="ie=edge">
+	<title>Listing 13 something</title>
+	<link rel="stylesheet" href="/assert.css">
+	<script src="/assert.js"></script>
+</head>
+<body>
+	<ul id="results"></ul>
+	<div title="Click me">私をクリック</div>
+	<div title="but only once">一度だけ</div>
+	<script>
+		if (document.addEventListener) {
+			this.addEvent = function (elem, type, fn) {
+				elem.addEventListener(type, fn, false);
+				return fn;
+			};
+			this.removeEvent = function (elem, type, fn) {
+				elem.removeEventListener(type, fn, false);
+			};
+		} else if (document.attachEvent) {
+			this.addEvent = function (elem, type, fn) {
+				var bound = function () {
+					return fn.apply(elem, arguments)
+				};
+				elem.attachEvent('on' + type, bound);
+				return bound;
+			};
+			this.removeEvent = function (elem, type, fn) {
+				elem.detachEvent('on' + type, fn);
+			};
+		}
+
+		addEvent(window, 'load', function () {
+			var elems = document.getElementsByTagName('div');
+
+			for (var i = 0; i < elems.length; i += 1) {
+				(function (elem) {
+					var handler = addEvent(elem, 'click',
+						function () {
+							this.style.backgroundColor =
+								this.style.backgroundColor === ''
+									? 'green' : '';
+							removeEvent(
+								elem, 'click', handler);
+					});
+				})(elems[i]);
+			}
+		})
+	</script>
+</body>
+</html>
