@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<meta http-equiv="X-UA-Compatible" content="ie=edge">
+	<title>Listing 13 something</title>
+	<script src="getNodes.js"></script>
+	<script src="root.js"></script>
+</head>
+<body>
+	<div id="test"><b>Hello</b>, I'm a ninja!</div>
+	<div id="tet2"></div>
+	<script>
+		window.onload = function () {
+			function insert (elems, args, callback) {
+				if (elems.length) {
+					var doc = elems[0].ownerDocument || elems[0];
+					var fragment = doc.createDocumentFragment();
+					var scripts = getNodes(args, doc, fragment);
+					var first = fragment.firstChild;
+
+					if (first) {
+						for (var i = 0; elems[i]; i += 1) {
+							callback.call(root(elems[i], first),
+								i > 0 ? fragment.cloneNode(true) : fragment);
+						}
+					}
+				}
+			}
+
+			var divs = document.getElementsByTagName('div');
+
+			insert(divs, '<b>Name;</b>', function (fragment) {
+					this.appendChild(fragment);
+				});
+			insert(divs, '<span>First</span> <span>Last</span>',
+				function (fragment) {
+					this.parentNode.insertBefore(fragment, this);
+				});
+		};
+	</script>
+</body>
+</html>
