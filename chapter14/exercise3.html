@@ -12,66 +12,7 @@
 	</style>
 </head>
 <body>
-	<script id="template1" type="template/html">
-		<style>
-			html, body {
-				height: 100%;
-			}
-
-			.leftSide, .rightSide {
-				height: 100%;
-				margin: 0;
-			}
-
-			.leftSide {
-				padding: 10px;
-				height: 100%;
-			}
-
-			.leftSide {
-				float: left;
-			}
-		</style>
-		<figure class="leftSide">
-			<img src="../images/alex-michaelsen-1136487-unsplash.jpg">
-		</figure>
-		<div class="rightSide">
-			<p>Lorem ipsum dolor sit amet consectetur adipisicing elit.
-			Magnam quos expedita asperiores. Eligendi eos ad, enim,
-			temporibus labore cumque odit voluptas ipsa aspernatur
-			incidunt facilis repellat obcaecati vitae facere deserunt.
-			Lorem ipsum dolor sit amet consectetur adipisicing elit.
-			Magnam quos expedita asperiores. Eligendi eos ad, enim,
-			temporibus labore cumque odit voluptas ipsa aspernatur
-			incidunt facilis repellat obcaecati vitae facere deserunt.
-			Lorem ipsum dolor sit amet consectetur adipisicing elit.
-			Magnam quos expedita asperiores. Eligendi eos ad, enim,
-			temporibus labore cumque odit voluptas ipsa aspernatur
-			incidunt facilis repellat obcaecati vitae facere deserunt.
-			Lorem ipsum dolor sit amet consectetur adipisicing elit.
-			Magnam quos expedita asperiores. Eligendi eos ad, enim,
-			temporibus labore cumque odit voluptas ipsa aspernatur
-			incidunt facilis repellat obcaecati vitae facere deserunt.
-			Lorem ipsum dolor sit amet consectetur adipisicing elit.
-			Magnam quos expedita asperiores. Eligendi eos ad, enim,
-			temporibus labore cumque odit voluptas ipsa aspernatur
-			incidunt facilis repellat obcaecati vitae facere deserunt.
-			Lorem ipsum dolor sit amet consectetur adipisicing elit.
-			Magnam quos expedita asperiores. Eligendi eos ad, enim,
-			temporibus labore cumque odit voluptas ipsa aspernatur
-			incidunt facilis repellat obcaecati vitae facere deserunt.
-			Lorem ipsum dolor sit amet consectetur adipisicing elit.
-			Magnam quos expedita asperiores. Eligendi eos ad, enim,
-			temporibus labore cumque odit voluptas ipsa aspernatur
-			incidunt facilis repellat obcaecati vitae facere deserunt.
-			Lorem ipsum dolor sit amet consectetur adipisicing elit.
-			Magnam quos expedita asperiores. Eligendi eos ad, enim,
-			temporibus labore cumque odit voluptas ipsa aspernatur
-			incidunt facilis repellat obcaecati vitae facere deserunt.</p>
-		</div>
-	</script>
-	<script id="template2" type="template/html">
-	</script>
+	<div id="content"></div>
 	<script>
 		(function () {
 			var map = {
@@ -113,9 +54,151 @@
 			};
 		})();
 		window.onload = function () {
-			var content =
-				document.getElementById('template1').innerHTML;
+			var container = document.getElementById('content');
+
+			function setTemplate (templateId) {
+				var content =
+					document.getElementById(templateId).innerHTML;
+				var fragment = document.createDocumentFragment();
+
+				generateNodes(content, fragment);
+				while (container.firstChild) {
+					container.removeChild(container.firstChild);
+				}
+				container.append(fragment);
+			}
+
+			container.addEventListener('click', function () {
+				var elem = event.target;
+				var tagName = elem.nodeName.toLowerCase();
+
+				if (tagName === 'img' || tagName === 'p') {
+					while (elem.parentNode) {
+						if (elem.id === 'content-one') {
+							setTemplate('template2');
+							break;
+						} else if (elem.id === 'content-two') {
+							setTemplate('template1');
+							break;
+						}
+						elem = elem.parentNode;
+					}
+				}
+			}, false);
+
+			setTemplate('template1');
 		};
+	</script>
+	<script id="template1" type="template/html">
+		<style>
+			html, body {
+				height: 100%;
+			}
+
+			.leftSide, .rightSide {
+				height: 100%;
+				margin: 0;
+			}
+
+			.leftSide {
+				padding: 10px;
+			}
+
+			.rightSide {
+				width: calc(100% - 270px);
+				float: right;
+			}
+
+			.rightSide p {
+				margin: 0;
+			}
+		</style>
+		<div id="content-one">
+			<div class="rightSide">
+				<p>Lorem ipsum dolor sit amet consectetur adipisicing elit.
+				Magnam quos expedita asperiores. Eligendi eos ad, enim,
+				temporibus labore cumque odit voluptas ipsa aspernatur
+				incidunt facilis repellat obcaecati vitae facere deserunt.
+				Lorem ipsum dolor sit amet consectetur adipisicing elit.
+				Magnam quos expedita asperiores. Eligendi eos ad, enim,
+				temporibus labore cumque odit voluptas ipsa aspernatur
+				incidunt facilis repellat obcaecati vitae facere deserunt.
+				Lorem ipsum dolor sit amet consectetur adipisicing elit.
+				Magnam quos expedita asperiores. Eligendi eos ad, enim,
+				temporibus labore cumque odit voluptas ipsa aspernatur
+				incidunt facilis repellat obcaecati vitae facere deserunt.
+				Lorem ipsum dolor sit amet consectetur adipisicing elit.
+				Magnam quos expedita asperiores. Eligendi eos ad, enim,
+				temporibus labore cumque odit voluptas ipsa aspernatur
+				incidunt facilis repellat obcaecati vitae facere deserunt.
+				Lorem ipsum dolor sit amet consectetur adipisicing elit.
+				Magnam quos expedita asperiores. Eligendi eos ad, enim,
+				temporibus labore cumque odit voluptas ipsa aspernatur
+				incidunt facilis repellat obcaecati vitae facere deserunt.
+				Lorem ipsum dolor sit amet consectetur adipisicing elit.
+				Magnam quos expedita asperiores. Eligendi eos ad, enim,
+				temporibus labore cumque odit voluptas ipsa aspernatur
+				incidunt facilis repellat obcaecati vitae facere deserunt.
+				Lorem ipsum dolor sit amet consectetur adipisicing elit.
+				Magnam quos expedita asperiores. Eligendi eos ad, enim,
+				temporibus labore cumque odit voluptas ipsa aspernatur
+				incidunt facilis repellat obcaecati vitae facere deserunt.
+				Lorem ipsum dolor sit amet consectetur adipisicing elit.
+				Magnam quos expedita asperiores. Eligendi eos ad, enim,
+				temporibus labore cumque odit voluptas ipsa aspernatur
+				incidunt facilis repellat obcaecati vitae facere deserunt.</p>
+			</div>
+			<figure class="leftSide">
+				<img src="../images/alex-michaelsen-1136487-unsplash.jpg">
+			</figure>
+		<div>
+	</script>
+	<script id="template2" type="template/html">
+		<style>
+			figure {
+				margin: 0;
+				float: right;
+			}
+		</style>
+		<div id="content-two">
+			<figure class="leftSide">
+				<img src="../images/right_image.png">
+			</figure>
+			<div class="rightSide">
+				<p>Lorem ipsum dolor sit amet consectetur adipisicing elit.
+				Magnam quos expedita asperiores. Eligendi eos ad, enim,
+				temporibus labore cumque odit voluptas ipsa aspernatur
+				incidunt facilis repellat obcaecati vitae facere deserunt.
+				Lorem ipsum dolor sit amet consectetur adipisicing elit.
+				Magnam quos expedita asperiores. Eligendi eos ad, enim,
+				temporibus labore cumque odit voluptas ipsa aspernatur
+				incidunt facilis repellat obcaecati vitae facere deserunt.
+				Lorem ipsum dolor sit amet consectetur adipisicing elit.
+				Magnam quos expedita asperiores. Eligendi eos ad, enim,
+				temporibus labore cumque odit voluptas ipsa aspernatur
+				incidunt facilis repellat obcaecati vitae facere deserunt.
+				Lorem ipsum dolor sit amet consectetur adipisicing elit.
+				Magnam quos expedita asperiores. Eligendi eos ad, enim,
+				temporibus labore cumque odit voluptas ipsa aspernatur
+				incidunt facilis repellat obcaecati vitae facere deserunt.
+				Lorem ipsum dolor sit amet consectetur adipisicing elit.
+				Magnam quos expedita asperiores. Eligendi eos ad, enim,
+				temporibus labore cumque odit voluptas ipsa aspernatur
+				incidunt facilis repellat obcaecati vitae facere deserunt.
+				Lorem ipsum dolor sit amet consectetur adipisicing elit.
+				Magnam quos expedita asperiores. Eligendi eos ad, enim,
+				temporibus labore cumque odit voluptas ipsa aspernatur
+				incidunt facilis repellat obcaecati vitae facere deserunt.
+				Lorem ipsum dolor sit amet consectetur adipisicing elit.
+				Magnam quos expedita asperiores. Eligendi eos ad, enim,
+				temporibus labore cumque odit voluptas ipsa aspernatur
+				incidunt facilis repellat obcaecati vitae facere deserunt.
+				Lorem ipsum dolor sit amet consectetur adipisicing elit.
+				Magnam quos expedita asperiores. Eligendi eos ad, enim,
+				temporibus labore cumque odit voluptas ipsa aspernatur
+				incidunt facilis repellat obcaecati vitae facere deserunt.</p>
+			</div>
+		</div>
 	</script>
 </body>
 </html>

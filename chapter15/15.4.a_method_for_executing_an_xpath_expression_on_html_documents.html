@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<meta http-equiv="X-UA-Compatible" content="ie=edge">
+	<title>Listing 15 something</title>
+</head>
+<body>
+	<script>
+		if (typeof document.evaluate === 'function') {
+			function getElementsByXPath(expression, parentElement) {
+				var results = [];
+				var query = document.evaluate(expression,
+					parentElement || document, null,
+					XPathResult.ORDERED_NODE_SNAPSHOT_TYPE, null);
+				
+				for (var i = 0; length = query.snapshotLength;
+					  i < length, i += 1) {
+					results.push(query.snapshotItem(i));
+				}
+				return results;
+			}
+		}
+	</script>
+</body>
+</html>

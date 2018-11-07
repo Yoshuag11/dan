@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<meta http-equiv="X-UA-Compatible" content="ie=edge">
+	<title>Listing 15 something</title>
+	<link rel="stylesheet" href="/assert.css">
+	<script src="/assert.js"></script>
+</head>
+<body>
+	<div id="test">
+		<b>Hello</b>, I´m a ninja!
+	</div>
+	<div id="test2"></div>
+	<ul id="results"></ul>
+	<script>
+		window.onload = function () {
+			var divs = document.querySelectorAll('body > div');
+
+			assert(divs.length === 3, // the third one is added by the
+									  // server utility
+				'Two divs found using a CSS selector.');
+			
+			var b = document.getElementById('test').
+				querySelector('b:only-child');
+			assert(b,
+				'The bold element was found relative to another element.');
+		};
+	</script>
+</body>
+</html>

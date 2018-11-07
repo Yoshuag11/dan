@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<meta http-equiv="X-UA-Compatible" content="ie=edge">
+	<title>Listing 15 something</title>
+	<link rel="stylesheet" href="/assert.css">
+	<script src="/assert.js"></script>
+</head>
+<body>
+	<div>
+		<div>
+			<span>Span</span>
+		</div>
+	</div>
+	<ul id="results"></ul>
+	<script>
+		(function () {
+			var run = 0;
+
+			this.unique = function (array) {
+				var ret = [];
+
+				run += 1;
+
+				for (var i = 0, length = array.length;
+					  i < length; i += 1) {
+					var elem = array[i];
+
+					if (elem.uniqueID !== run) {
+						elem.uniqueID = run;
+						ret.push(array[i]);
+					}
+				}
+				return ret;
+			}
+		})();
+		
+		window.onload = function () {
+			function find(selector, root) {
+				root = root || document;
+
+				var parts = selector.split(' ');
+				var query = parts[parts.length - 1];
+				var rest = parts.slice(0, -1).join('').toUpperCase();
+				var elems = root.getElementsByTagName(query);
+				var results = [];
+
+				for (var i = 0; i < elems.length; i += 1) {
+					if (rest) {
+						var parent = elems[i].parentNode;
+
+						while (parent && parent.nodeName != rest) {
+							parent = parent.parentNode;
+						}
+
+						if (parent) {
+							results.push(elems[i]);
+						}
+					} else {
+						results.push(elems[i]);
+					}
+				}
+				return results;
+			}
+
+			var divs = find('div');
+			assert(divs.length === 3, 'Correct number of divs found.');
+
+			divs = find('div', document.body);
+			assert(divs.length === 3,
+				'Correct number of divs found in body.');
+
+			divs = find('body div');
+			assert(divs.length === 3,
+				'Correct number of divs found in body.');
+
+			var spans = find('div span');
+			assert(spans.length === 1,
+				'No duplicate span was found.');
+		};
+	</script>
+</body>
+</html>

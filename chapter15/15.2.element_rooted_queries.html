@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<meta http-equiv="X-UA-Compatible" content="ie=edge">
+	<title>Listing 15 something</title>
+	<link rel="stylesheet" href="/assert.css">
+	<script src="/assert.js"></script>
+</head>
+<body>
+	<div id="test">
+		<b>Hello</b>, I'm a ninja!
+	</div>
+	<ul id="results"></ul>
+	<script>
+		window.onload = function () {
+			var divs = document.querySelectorAll('body > div');
+			
+			var b = document.getElementById('test').
+				querySelector('div b');
+			assert(b,
+				'The bold element was found relative to another element.');
+		};
+	</script>
+</body>
+</html>
