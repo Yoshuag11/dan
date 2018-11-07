@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<meta http-equiv="X-UA-Compatible" content="ie=edge">
+	<title>Listing 13 something</title>
+	<script src="event-supported.js"></script>
+	<script src="trigger.js"></script>
+	<script src="event.js"></script>
+</head>
+<body>
+	<script>
+		(function () {
+			this.addChange = function (elem, fn) {
+				addEvent(elem, 'change', fn);
+
+				if (isEventSupported('change')) {
+					return;
+				}
+
+				if (getData(elem).events.change.length === 1) {
+					addEvent(elem, 'focusout', triggerChangeIfValueChanged);
+					addEvent(elem, 'click', triggerChangeOnClick);
+					addEvent(elem, 'keydown', triggerChangeOnKeyDown);
+					addEvent(elem, 'beforeactivate', triggerChangeOnBefore);
+				}
+			};
+			this.removeChange = function (elem, fn) {
+				removeEvent(elem, 'change', fn);
+
+				if (isEventSupported('change')) {
+					return;
+				}
+
+				var data = getData(elem);
+
+				if (!data || !data.events || !data.events.change) {
+					removeEvent(elem, 'focusout', triggerChangeIfValueChanged);
+					removeEvent(elem, 'click', triggerChangeOnClick);
+					removeEvent(elem, 'keydown', triggerChangeOnKeyDown);
+					removeEvent(elem, 'beforeactivate', triggerChangeOnBefore);
+				}
+			};
+
+			function triggerChangeOnClick (e) {
+				var type = e.target.type;
+
+				if (type === 'radio' || type === 'checkbox' ||
+					  e.target.nodeName.toLowerCase() === 'select') {
+					return triggerChangeIfValueChanged.call(this, e);
+				}
+			}
+			function triggerChangeOnKeyDown (e) {
+				var type = e.target.type;
+				var key = e.keyCode;
+
+				if (key === 13 &&
+						e.target.nodeName.toLowerCase() !== 'textarea' ||
+					  key === 32 && (type === 'checkbox' || type === 'radio') ||
+					  type === 'select-multiple') {
+					return triggerChangeIfValueChanged.call(this, e);
+				}
+			}
+			function triggerChangeOnBefore (e) {
+				getData(e.target)._change_data = getVal(e.target);
+			}
+			function getVal (elem) {
+				var type = elem.type;
+				var val = elem.value;
+
+				if (type === 'radio' || type === 'checkbox') {
+					val = elem.checked;
+				} else if (type === 'select-multiple') {
+					val = '';
+
+					if (elem.selectedIndex > -1) {
+						for (var i = 0; i < elem.options.length; i += 1) {
+							val += '-' + elem.options[i].selected;
+						}
+					}
+				} else if (elem.nodeName.toLowerCase() === 'seclect') {
+					val = elem.selectedIndex;
+				}
+				return val;
+			}
+			function triggerChangeIfValueChanged (e) {
+				var elem = e.target;
+				var data;
+				var val;
+				var formElems = /textarea|input|select/i;
+
+				if (!formElems.test(elem.nodeName) || elem.readOnly) {
+					return;
+				}
+
+				data = getData(elem)._change_data;
+				val = getVal(elem);
+
+				if (e.type !== 'focusout' || elem.type !== 'radio') {
+					getData(elem)._change_data = val;
+				}
+				if (data === undefined || val === data) {
+					return;
+				}
+				if (data != null || val) {
+					return triggerEvent(elem, 'change');
+				}
+			}
+		})();
+	</script>
+</body>
+</html>

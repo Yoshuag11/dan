@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<meta http-equiv="X-UA-Compatible" content="ie=edge">
+	<title>Listing 13 something</title>
+	<script src="event-supported.js"></script>
+	<script src="trigger.js"></script>
+	<script src="event.js"></script>
+</head>
+<body>
+	<script>
+		(function () {
+			if (isEventSupported('mouseenter')) {
+				this.hover = function (elem, fn) {
+					addEvent(elem, 'mouseenter', function () {
+						fn.call(elem, 'mouseenter');
+					});
+					addEvent(elem, 'mouseleave', function () {
+						fn.call(elem, 'mouseleave');
+					});
+				};
+			} else {
+				this.hover = function (elem, fn) {
+					addEvent(elem, 'mouseover', function (e) {
+						withinElement(this, e, 'mouseenter', fn);
+					});
+					addEvent(elem, 'mouseout', function (e) {
+						withinElement(this, e, 'mouseleave', fn);
+					});
+				};
+			}
+
+			function withinElement (elem, event, type, handler) {
+				var parent = event.relatedTarget;
+
+				while (parent && parent !== elem) {
+					try {
+						parent = parent.parentNode;
+					} catch (e) {
+						break;
+					}
+				}
+
+				if (parent !== elem) {
+					handle.call(elem, type);
+				}
+			}
+		})();
+	</script>
+</body>
+</html>

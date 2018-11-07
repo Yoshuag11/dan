@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<meta http-equiv="X-UA-Compatible" content="ie=edge">
+	<title>Listing 13 something</title>
+	<link rel="stylesheet" href="/assert.css">
+	<script src="/assert.js"></script>
+	<script src="fixup.js"></script>
+	<script src="data.js"></script>
+	<script src="event.js"></script>
+	<script src="trigger.js"></script>
+</head>
+<body>
+	<table id="someTable">
+		<thead>
+			<tr><th>NAME</th><th>LAST NAME</th></tr>
+		</thead>
+		<tbody>
+			<tr><td>HEC</td><td>DAN</td></tr>
+		</tbody>
+	</table>
+	<ul id="results"></ul>
+	<script>
+		var table = document.getElementById('someTable');
+
+		addEvent(table, 'click', function (event) {
+			if (event.target.tagName.toLowerCase() === 'td') {
+				event.target.style.backgroundColor = 'yellow';
+			}
+		});
+	</script>
+</body>
+</html>

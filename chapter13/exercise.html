@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<meta http-equiv="X-UA-Compatible" content="ie=edge">
+	<title>Exercises chapter 13</title>
+	<style>
+		table {
+			border-collapse: collapse;
+		}
+		td {
+			padding: 10px;
+			border-style: solid;
+			border-width: 2px;
+			border-color: black;
+		}
+	</style>
+</head>
+<body>
+	<table>
+		<tbody>
+			<tr>
+				<td title="0">0</td>
+				<td title="1">1</td>
+				<td title="2">2</td>
+				<td title="3">3</td>
+				<td title="4">4</td>
+			</tr>
+			<tr>
+				<td title="5">5</td>
+				<td title="6">6</td>
+				<td title="7">7</td>
+				<td title="8">8</td>
+				<td title="9">9</td>
+			</tr>
+			<tr>
+				<td title="10">10</td>
+				<td title="11">11</td>
+				<td title="12">12</td>
+				<td title="13">13</td>
+				<td title="14">14</td>
+			</tr>
+			<tr>
+				<td title="15">15</td>
+				<td title="16">16</td>
+				<td title="17">17</td>
+				<td title="18">18</td>
+				<td title="19">19</td>
+			</tr>
+			<tr>
+				<td title="20">20</td>
+				<td title="21">21</td>
+				<td title="22">22</td>
+				<td title="23">23</td>
+				<td title="24">24</td>
+			</tr>
+		</tbody>
+	</table>
+	<br>
+	<form id="myForm">
+		<button type="button">Click me!</button>
+	</form>
+	<meter id="clicksLeft" min="0" max="3"
+		low="1.3" high="3" value="3" form="myForm"></meter>
+	<script>
+		if (document.addEventListener) {
+			this.addEvent = function (elem, type, fn) {
+				elem.addEventListener(type, fn, false);
+				return fn;
+			};
+			this.removeEvent = function (elem, type, fn) {
+				elem.removeEventListener(type, fn, false);
+			};
+		} else if (document.attachEvent) {
+			this.addEvent = function (elem, type, fn) {
+				var bound = function () {
+					return fn.apply(elem, arguments);
+				};
+
+				elem.attachEvent(`on${type}`, bound);
+				return bound;
+			};
+			this.removeEvent = function (elem, type, fn) {
+				elem.detachEvent(`on${type}`, fn);
+			};
+		}
+
+		// Exercise one
+		var table = document.getElementsByTagName('table')[0];
+
+		addEvent(table, 'click', function (event) {
+			if (event.target.tagName.toLowerCase() === 'td') {
+				window.alert(`Clicked cell: "${event.target.title}".`);
+			}
+		});
+
+		// Exercise two
+		(function (form) {
+			var clicks = 3;
+			var meter = document.getElementsByTagName('meter')[0];
+
+			addEvent(form, 'click', function handler (event) {
+				if (event.target.type === 'button') {
+					meter.value = --clicks;
+
+					event.preventDefault();
+
+					if (clicks == 0) {
+						removeEvent(form, 'click', handler);
+					}
+				}
+			});
+		})(document.getElementById('myForm'));
+	</script>
+</body>
+</html>

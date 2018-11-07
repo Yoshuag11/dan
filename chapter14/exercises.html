@@ -1,0 +1,221 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<meta http-equiv="X-UA-Compatible" content="ie=edge">
+	<title>Exercises chapter 14</title>
+	<style>
+		table {
+			border-collapse: collapse;
+		}
+		td {
+			padding: 15px;
+			border-style: solid;
+			border-width: 1.5px;
+			border-color: black;
+		}
+
+		.section {
+			margin-bottom: 20px;
+		}
+		#second_exercise {
+			margin-top: 15px;
+			display: none;
+		}
+
+		#second_exercise > div {
+			padding: 10px;
+			flex-grow: 1;
+			border-right-style: solid;
+			border-right-width: 2px;
+			border-right-color: blue;
+		}
+
+		#second_exercise > div:last-child {
+			border-right-style: none;
+		}
+	</style>
+</head>
+<body>
+	<article>
+		<h3>Generate grid</h3>
+		<form>
+			<fieldset>
+				<legend>Fill out your the required information</legend>
+				<label for="columns">Columns</label>
+				<input id="columns" type="number">
+				<label for="rows">Rows</label>
+				<input id="rows" type="number">
+			</fieldset>
+			<button id="grid" type="button">Generate grid</button>
+		</form>
+		<br>
+		<div id="gridContent">
+			<table>
+				<tbody id="tableBody"></tbody>
+			</table>
+		</div>
+		<article class="section">
+			<form id="second_exercise_form">
+				<input id="first_column" name="column"
+					type="radio" value="1" checked>
+				<Label for="first_column">1 column</Label>
+				<input id="second_column" name="column"
+					type="radio" value="2">
+				<Label for="second_column">2 columns</Label>
+				<input id="third_column" name="column"
+					type="radio" value="3">
+				<Label for="third_column">3 columns</Label>
+				<input id="fourth_column" name="column"
+					type="radio" value="4">
+				<Label for="fourth_column">4 columns</Label>
+			</form>
+			<div id="second_exercise">
+			</div>
+			<p id="mainContent">Lorem ipsum dolor sit amet consectetur adipisicing elit.
+			  Dolor at modi placeat fugiat nesciunt consectetur iusto,
+			  cumque earum maiores laborum repellat beatae! Voluptatum
+			  deleniti dicta omnis asperiores explicabo, earum harum?
+			  Lorem ipsum dolor sit amet consectetur, adipisicing elit.
+			  Dolorem, quis quod vitae atque ipsum reiciendis asperiores
+			  dolor, necessitatibus ipsa neque ipsam odio repellendus fugit
+			  architecto nihil laboriosam corrupti vel quasi.
+			  Lorem ipsum dolor sit amet consectetur adipisicing elit.
+			  Dolor at modi placeat fugiat nesciunt consectetur iusto,
+			  cumque earum maiores laborum repellat beatae! Voluptatum
+			  deleniti dicta omnis asperiores explicabo, earum harum?
+			  Lorem ipsum dolor sit amet consectetur, adipisicing elit.
+			  Dolorem, quis quod vitae atque ipsum reiciendis asperiores
+			  dolor, necessitatibus ipsa neque ipsam odio repellendus fugit
+			  architecto nihil laboriosam corrupti vel quasi.</p>
+		</article>
+	</article>
+	<script>
+		(function () {
+			var map = {
+				td: [3, '<table><tbody><tr>', '</tr></tbody></table>'],
+				th: [3, '<table><tbody><tr>', '</tr></tbody></table>'],
+				tr: [2, '<table><thead>', '</thead></table>'],
+				option: [1, '<select multiple="multiple">', '</select>'],
+				optgroup: [1, '<select multiple="multiple">', '</select>'],
+				legend: [1, '<fieldset>', '</fieldset>'],
+				thead: [1, '<table>', '</table>'],
+				tbody: [1, '<table>', '</table>'],
+				tfoot: [1, '<table>', '</table>'],
+				colgroup: [1, '<table>', '</table>'],
+				caption: [1, '<table>', '</table>'],
+				col: [2, '<table><tbody></tbody><colgroup>',
+					'</colgroup></table>'],
+				link: [3, '<div></div><div>', '</div>']
+			};
+			window.generateNodes = function (htmlString, fragment) {
+				var tagName = htmlString.match(/<(\w+)>/)[1];
+				var mapEntry = tagName ? map[tagName] : null;
+
+				if (!mapEntry) {
+					mapEntry = [0, ' ', ' '];
+				}
+
+				var div = document.createElement('div');
+
+				div.innerHTML = mapEntry[1] + htmlString + mapEntry[2];
+
+				var childrenCount = mapEntry[0];
+
+				while (childrenCount--) {
+					div = div.lastChild;
+				}
+				while (div.firstChild) {
+					fragment.append(div.firstChild);
+				}
+			};
+		})();
+		window.onload = function () {
+			var columns = document.getElementById('columns');
+			var rows = document.getElementById('rows');
+			var tBody = document.getElementById('tableBody');
+			var tdTag = '<td></td>';
+			var trBegin = '<tr>';
+			var trEnd = '</tr>';
+			var mainContent = document.getElementById('mainContent');
+			var columnsContent =
+				document.getElementById('second_exercise');
+			var secondForm =
+				document.getElementById('second_exercise_form');
+			(function () {
+				var divOpenning = '<div>';
+				var divClosing = '</div>';
+
+			 	secondForm.addEventListener('change', function (e) {
+					var textContent;
+					var htmlString = '';
+					var fragment;
+					var val;
+
+					if (event.target.type === 'radio') {
+						fragment = document.createDocumentFragment();
+						val = +event.target.value;
+
+						if (val === 1) {
+							mainContent.style.display = 'block';
+							columnsContent.style.display = 'none';
+						} else {
+							mainContent.style.display = 'none';
+							columnsContent.style.display = 'flex';
+						}
+						textContent = splitDocument(val);
+
+						for (var i = 0; i < val; i += 1) {
+							htmlString += divOpenning + textContent[i]
+								+ divClosing;
+						}
+
+						while (columnsContent.firstChild) {
+							columnsContent.removeChild(
+								columnsContent.firstChild);
+						}
+
+						generateNodes(htmlString, fragment);
+						columnsContent.append(fragment);
+					}
+				}, false);
+			})();
+
+			function generateGrid () {
+				var htmlString = '';
+				var nColumns = columns.value;
+				var nRows = rows.value;
+				var fragment = document.createDocumentFragment();
+
+				for (var i = 0; i < nRows; i += 1) {
+					htmlString += trBegin;
+
+					for (var j = 0; j < nColumns; j += 1) {
+						htmlString += tdTag;
+					}
+
+					htmlString += trEnd;
+				}
+
+				while (tBody.firstChild) {
+					tBody.removeChild(tBody.firstChild);
+				}
+
+				generateNodes(htmlString, fragment);
+				tBody.append(fragment);
+			}
+			function splitDocument (parts) {
+				var text = mainContent.textContent ||
+					mainContent.innerText;
+				var length = text.length;
+				var offset = Math.ceil(length / parts);
+				return text.match(new RegExp('[\\s\\S]{1,' + offset + '}', 'g'));
+			}
+
+			document.getElementById('grid').
+				addEventListener('click', generateGrid, false);
+		};
+	</script>
+</body>
+</html>

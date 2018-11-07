@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<meta http-equiv="X-UA-Compatible" content="ie=edge">
+	<title>Listing 13 something</title>
+	<link rel="stylesheet" href="/assert.css">
+	<script src="/assert.js"></script>
+</head>
+<body>
+	<ul id="results"></ul>
+	<script>
+		function globalEval (data) {
+			data = data.replace(/^\s+|\s+$/g, '');
+
+			if (data) {
+				var head = document.getElementsBytTagName('head')[0] ||
+					document.documentElement;
+				var script = document.createElement('script');
+
+				script.type = 'text/javascript';
+				script.text = data;
+
+				head.insertBefore(script, head.firstChild);
+				head.removeChild(script);
+			}
+		}
+	</script>
+</body>
+</html>

@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<meta http-equiv="X-UA-Compatible" content="ie=edge">
+	<title>Listing 14 something</title>
+	<link rel="stylesheet" href="/assert.css">
+	<script src="/assert.js"></script>
+</head>
+<body>
+	<div id="test"><b>Hello</b>, I'm a ninja!</div>
+	<ul id="results"></ul>
+	<script>
+		window.onload = function () {
+			var b = document.getElementById('test');
+
+			while (b.firstChild) {
+				b.removeChild(b.firstChild);
+			}
+
+			b.appendChild(document.createTextNode('Some new text'));
+
+			var text = b.textContent || b.innerText;
+
+			assert(text === "Some new text", 'Set a new text value.');
+			assert(b.childNodes.length === 1,
+				'only one text node exists now.');
+		};
+	</script>
+</body>
+</html>

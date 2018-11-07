@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<meta http-equiv="X-UA-Compatible" content="ie=edge">
+	<title>Listing 13 something</title>
+	<script src="event-supported.js"></script>
+	<script src="trigger.js"></script>
+	<script src="event.js"></script>
+</head>
+<body>
+	<script>
+		(function () {
+			var isReady = false;
+			var contentLoadedHandler;
+
+			function ready () {
+				if (!isReady) {
+					triggerEvent(document, 'ready');
+					isReady = true;
+				}
+			}
+
+			if (document.readyState === 'complete') {
+				ready();
+			}
+			if (document.addEventListener) {
+				contentLoadedHandler = function () {
+					document.removeEventListener(
+						'DOMContentLoaded', contentLoadedHandler, false);
+					ready();
+				};
+
+				document.addEventListener(
+					'DOMContentLoaded', contentLoadedHandler, false);
+			} else if (document.attachEvent) {
+				contentLoadedHandler = function () {
+					if (document.readyState === 'complete') {
+						document.detachEvent('onreadystatechange',
+							contentLoadedHandler);
+						ready();
+					}
+				};
+
+				document.attachEvent('onreadystatechange',
+					contentLoadedHandler);
+				
+				var toplevel = false;
+
+				try {
+					toplevel = window.frameElement == null;
+				} catch (e) {
+				}
+
+				if (document/documentElement.scroll && toplevel) {
+					doScrollCHeck();
+				}
+			}
+
+			function doScrollCheck () {
+				if (isReady) {
+					return;
+				}
+
+				try {
+					document.documentElement.doScroll('left');
+				} catch (error) {
+					setTimeout(doScrollCheck, 1);
+					return;
+				}
+				ready();
+			}
+		})();
+	</script>
+</body>
+</html>

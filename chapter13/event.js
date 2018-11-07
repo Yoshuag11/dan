@@ -37,7 +37,11 @@
 		}
 		if (data.handlers[type].length === 1) {
 			if (document.addEventListener) {
-				elem.addEventListener(type, data.dispatcher, false);
+				elem.addEventListener(
+					type === 'focusin' ? 'focus' :
+					  type === 'focusout' ? 'blur' : type,
+					data.dispatcher,
+					type === 'focusin' || type === 'focusout');
 			} else if (document.attachEvent) {
 				elem.attachEvent('on' + type, data.dispatcher);
 			}
@@ -96,7 +100,11 @@ function tidyUp (elem, type) {
 		delete data.handlers[type];
 
 		if (document.removeEventListener) {
-			elem.removeEventListener(type, data.dispatcher, false);
+			elem.removeEventListener(
+				type === 'focusin' ? 'focus' :
+				  type === 'focusout' ? 'blur' : type,
+				data.dispatcher,
+				type === 'focusin' || type === 'focusout');
 		} else if (document.detachEvent) {
 			elem.detachEvent('on' + type, data.dispatcher);
 		}
