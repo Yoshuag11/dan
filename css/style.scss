@@ -1,0 +1,81 @@
+html, body {
+	height: 100%;
+}
+
+body {
+	display: flex;
+	flex-direction: row;
+	background-color: green;
+}
+
+#notes-container {
+	flex-grow: 3;
+	display: flex;
+	justify-content: space-around;
+	flex-wrap: wrap;
+	align-items: flex-start;
+}
+
+.note-container {
+	width: 175px;
+	position: relative;
+	display: inline-block;
+
+	.note {
+		line-height: 1.4;
+		font-weight: bold;
+		background-color: yellow;
+		/* background-image: url(images/notes.jpg); */
+		box-shadow: 5px 5px 5px black;
+		resize: none;
+
+		&:disabled {
+			// color: white;
+			font-weight: normal;
+			background-color: rgb(209, 209, 224);
+		}
+	}
+
+	i {
+		position: absolute;
+		bottom: 8px;
+		right: 8px;
+
+		&:first-child {
+			right: 25px;
+		}
+	}
+
+	.save {
+		border-style: solid;
+		border-radius: 5px;
+		position: absolute;
+		bottom: 5px;
+		right: 3px;
+		background-color: transparent;
+
+		&:hover {
+			background-color: rgb(230, 230, 0);
+		}
+	}
+}
+.other-container {
+	flex-grow: 1;
+	flex-shrink: 0;
+	text-align: center;
+
+	button {
+		padding: 10px;
+		background-color: rgb(102, 140, 255);
+		border-radius: 7px;
+
+		h4 {
+			margin: 0;
+			display: inline-block;
+		}
+
+		i {
+			font-size: 1.5em;
+		}
+	}
+}

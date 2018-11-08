@@ -31,7 +31,7 @@
 					'</colgroup></table>'],
 				link: [3, '<div></div><div>', '</div>']
 			};
-			window.generateNodes = function (htmlString, fragment) {
+			this.generateNodes = function (htmlString, fragment) {
 				var tagName = htmlString.match(/<(\w+)>/)[1];
 				var mapEntry = tagName ? map[tagName] : null;
 

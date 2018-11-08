@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<meta http-equiv="X-UA-Compatible" content="ie=edge">
+	<title>Notes JS</title>
+	<link rel="stylesheet"
+		href="https://use.fontawesome.com/releases/v5.5.0/css/all.css"
+		integrity="sha384-B4dIYHKNBt8Bc12p+WXckhzcICo0wtJAoU8YZTY5qE0Id1GSseTk6S+L3BlXeVIU"
+		crossorigin="anonymous">
+	<link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+	<div id="notes-container"></div>
+	<aside class="other-container">
+		<button id="add_note">
+			<h4>Add note</h4>
+			<i class="far fa-sticky-note"></i>
+		</button>
+	</aside>
+	<script src="js/event.js"></script>
+	<script src="js/generateNodes.js"></script>
+	<script>
+		function saveContent (note) {
+			notes[note.id] = {
+				creation: +note.id.replace('data', ''),
+				lastEdit: (new Date()).getTime(),
+				text: note.value
+			};
+			localStorage.setItem('notes', JSON.stringify(notes));
+		}
+		(function () {
+			var noteContent = `
+				<div class="note-container">
+					<i class="managing fas fa-check"></i>
+					<i class="far fa-trash-alt"></i>
+					<textarea class="note" placeholder="Add your content.."
+						rows="10" cols="20" wrap="soft" autofocus></textarea>
+				</div>`;
+			var htmlString = noteContent.
+				replace(/^\s+?(?=<)|(?<=>)\s*?(?=<)/g, '').
+				replace(/\n/, '');
+
+			this.generateNote = function (fragment, noteContent, noteId) {
+				var note;
+
+				generateNodes(htmlString, fragment);
+
+				note = fragment.querySelector('.note');
+
+				if (noteContent) {
+					note.id = noteId;
+					note.value = noteContent;
+				} else {
+					note.id = `data${(new Date()).getTime()}`;
+				}
+
+				notesContainer.append(fragment);
+			};
+		})();
+
+		var notesContainer;
+		var notes = JSON.parse(localStorage.getItem('notes')) || {};
+		window.onload = function () {
+			var body = document.body;
+
+			notesContainer = document.getElementById('notes-container');
+
+			addEvent(body, 'focusout', function (event) {
+				var elem = event.target;
+				var bodyData;
+
+				if (elem.classList.contains('note')) {
+					elem.parentNode.querySelector('.managing').
+						className = 'managing far fa-edit';
+					elem.disabled = true;
+					saveContent(elem);
+
+					bodyData = getData(body);
+					bodyData.disabled = true;
+
+					setTimeout(function () {
+						bodyData.disabled = false;
+						bodyData = null; // clean memory
+					}, 300);
+				}
+			});
+			addEvent(body, 'click', function (event) {
+				var elem = event.target;
+
+				if (elem.classList.contains('managing')) {
+					var note = elem.parentNode.querySelector('.note');
+
+					if (elem.classList.contains('fa-edit')) {
+						note.parentNode.querySelector('.managing').
+							className = 'managing fas fa-check';
+						note.removeAttribute('disabled');
+						note.focus();
+					} else {
+						note.parentNode.querySelector('.managing').
+							className = 'managing far fa-edit';
+						note.disabled = true;
+						saveContent(note);
+					}
+				}
+			});
+			addEvent(document.getElementById('add_note'), 'click', function () {
+				var fragment = document.createDocumentFragment();
+
+				generateNote(fragment);
+				notesContainer.append(fragment);
+			});
+
+			for (var noteId in notes) {
+				if (notes.hasOwnProperty(noteId)) {
+					var fragment = document.createDocumentFragment();
+
+					generateNote(fragment, notes[noteId].text, noteId);
+					notesContainer.append(fragment);
+				}
+			}
+		};
+	</script>
+</body>
+</html>

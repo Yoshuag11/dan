@@ -1,0 +1,99 @@
+html, body {
+  height: 100%;
+}
+
+body {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: horizontal;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: row;
+          flex-direction: row;
+  background-color: green;
+}
+
+#notes-container {
+  -webkit-box-flex: 3;
+      -ms-flex-positive: 3;
+          flex-grow: 3;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -ms-flex-pack: distribute;
+      justify-content: space-around;
+  -ms-flex-wrap: wrap;
+      flex-wrap: wrap;
+  -webkit-box-align: start;
+      -ms-flex-align: start;
+          align-items: flex-start;
+}
+
+.note-container {
+  width: 175px;
+  position: relative;
+  display: inline-block;
+}
+
+.note-container .note {
+  line-height: 1.4;
+  font-weight: bold;
+  background-color: yellow;
+  /* background-image: url(images/notes.jpg); */
+  -webkit-box-shadow: 5px 5px 5px black;
+          box-shadow: 5px 5px 5px black;
+  resize: none;
+}
+
+.note-container .note:disabled {
+  font-weight: normal;
+  background-color: #d1d1e0;
+}
+
+.note-container i {
+  position: absolute;
+  bottom: 8px;
+  right: 8px;
+}
+
+.note-container i:first-child {
+  right: 25px;
+}
+
+.note-container .save {
+  border-style: solid;
+  border-radius: 5px;
+  position: absolute;
+  bottom: 5px;
+  right: 3px;
+  background-color: transparent;
+}
+
+.note-container .save:hover {
+  background-color: #e6e600;
+}
+
+.other-container {
+  -webkit-box-flex: 1;
+      -ms-flex-positive: 1;
+          flex-grow: 1;
+  -ms-flex-negative: 0;
+      flex-shrink: 0;
+  text-align: center;
+}
+
+.other-container button {
+  padding: 10px;
+  background-color: #668cff;
+  border-radius: 7px;
+}
+
+.other-container button h4 {
+  margin: 0;
+  display: inline-block;
+}
+
+.other-container button i {
+  font-size: 1.5em;
+}
+/*# sourceMappingURL=style.css.map */
